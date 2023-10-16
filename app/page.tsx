@@ -4,13 +4,13 @@ import Note from "./features/Note"
 
 const Home = () => {
   return (
-    <main className="flex min-w-screen min-h-screen justify-start p-2 lg:p-24 md:p-24">
+    <main className="flex min-w-screen min-h-screen justify-start xs:p-2 lg:p-24 md:p-24">
       <Note>
         <header className="cursor-pointer">
           <p>Hey guys,</p>
           <p>This is my last-minute portfolio. I&apos;ve been busy with some serious procrastination stuff, so this is what I&apos;ve got </p>
         </header>
-        <small className="text-xl cursor-default ">Anyway, <a className="text-blue-500" href="mailto:alejoivanrojas@gmail.com">email</a> me if you have any suggestions</small>
+        <small className="md:text-xl xs:text-base cursor-default ">Anyway, <a className="text-blue-500" href="mailto:alejoivanrojas@gmail.com">email</a> me if you have any suggestions</small>
        
        <footer className="mt-6">
           <ul>
