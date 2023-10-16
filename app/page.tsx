@@ -1,12 +1,27 @@
 'use client'
+import Link from "next/link"
 import Note from "./features/Note"
 
-export default function Home() {
+const Home = () => {
   return (
-    <main className="flex min-h-screen bg-radial-pattern justify-start p-24">
+    <main className="flex min-w-screen min-h-screen justify-start p-2 lg:p-24 md:p-24">
       <Note>
-        <small>Just trying 🤷‍♀️🧵</small>
+        <header className="cursor-pointer">
+          <p>Hey guys,</p>
+          <p>This is my last-minute portfolio. I&apos;ve been busy with some serious procrastination stuff, so this is what I&apos;ve got </p>
+        </header>
+        <small className="text-xl cursor-default ">Anyway, <a className="text-blue-500" href="mailto:alejoivanrojas@gmail.com">email</a> me if you have any suggestions</small>
+       
+       <footer className="mt-6">
+          <ul>
+            <li><Link href="/work">📌 <span className="underline">Work</span></Link></li>
+            <li><Link href="/about">📌 <span className="underline">About</span></Link></li>
+            <li><Link href="/social">📌 <span className="underline">Social</span></Link></li>
+          </ul>
+       </footer>
       </Note>
     </main>
   )
 }
+
+export default Home

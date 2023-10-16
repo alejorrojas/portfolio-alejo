@@ -15,3 +15,7 @@
       background-size: 2rem 2rem;
   }
 }
+
+nav > h2{
+  font-family: var(--font-itim);
+}
