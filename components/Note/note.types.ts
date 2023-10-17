@@ -7,5 +7,6 @@ export default interface INote extends ReactProps{
     position?: {
         x: number,
         y: number
-    }
+    },
+    cancel?: string
 }
