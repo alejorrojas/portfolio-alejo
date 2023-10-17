@@ -5,9 +5,8 @@ import dataAbout from '../_data/about.data'
 
 const About = () => {
   return (
-    <main className='min-w-screen min-h-screen flex xs:flex-row'>
-        <section>
-            <Note properties='cursor-pointer bg-amber-200' cornerProperties='bg-amber-300'>
+    <main className='min-w-screen min-h-screen xs:p-2 md:p-10'>
+            <Note properties='cursor-pointer bg-[#fae29b]' cornerProperties='bg-[#f5db90]'>
                 <header className=' mb-3'>
                     <h3>Hi, I&apos;m Alejo <span className='font-semibold'>:)</span></h3>
                 </header>
@@ -15,11 +14,11 @@ const About = () => {
                 <p className='leading-relaxed ' >{dataAbout.presentation.aside}</p>
             </Note>
 
-            <Note properties='cursor-pointer relative left-80 bottom-72 bg-amber-200' cornerProperties="bg-amber-300">
+            <Note properties='cursor-pointer bg-[#fae29b]' cornerProperties='bg-[#f5db90]'>
                     <header className=''>
                         <h3 className='font-semibold'>Work work and work 🕓</h3>
                     </header>
-                    <ul className='mt-8'>
+                    <ul className='md:mt-8 xs:mt-3'>
                         {dataAbout.work.map((work, i) => (
                             <li className='list-none mt-8' key={i}>
                                 <p>- {work.title}</p>
@@ -29,7 +28,7 @@ const About = () => {
                     </ul>
             </Note>
 
-            <Note properties='cursor-pointer relative left-10 bottom-72 bg-amber-200' cornerProperties="bg-amber-300">
+            <Note properties='cursor-pointer bg-[#fae29b]' cornerProperties='bg-[#f5db90]'>
                 <header className='mb-3'>
                         <h3>Studies</h3>
                 </header>       
@@ -38,12 +37,9 @@ const About = () => {
                     ))}
             
             </Note>         
-        </section>
-        <section>
-            <Note properties='cursor-pointer relative left-96 bg-amber-200' cornerProperties="bg-amber-300">
-                    
+            <Note properties='cursor-pointer bg-[#fae29b]' cornerProperties='bg-[#f5db90]' position={{x:200,y:1}}>
+                <p>Some experiences where I had the chance to communicate my ideas</p>
             </Note>
-        </section>
     </main>
   )
 }

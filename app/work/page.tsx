@@ -5,7 +5,7 @@ import Note from '../features/Note'
 
 const Work = () => {
   return (
-    <main className="flex xl:flex-row xs:flex-col min-w-screen min-h-screen items-center justify-evenly xs:p-2 lg:p-24 md:p-24">
+    <main className="flex xl:flex-row xs:flex-col min-w-screen min-h-screen items-center justify-evenly xs:p-2 md:p-16">
     {dataWork.map((work, i) =>(
       <Note key={i}>
         <header className='cursor-pointer'>

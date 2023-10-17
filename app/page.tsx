@@ -4,7 +4,7 @@ import Note from "./features/Note"
 
 const Home = () => {
   return (
-    <main className="flex min-w-screen min-h-screen justify-start xs:p-2 lg:p-24 md:p-24">
+    <main className="flex min-w-screen min-h-screen xs:p-2 md:p-10">
       <Note>
         <header className="cursor-pointer">
           <p>Hey guys,</p>
