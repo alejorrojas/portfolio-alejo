@@ -19,7 +19,7 @@ const About = () => {
                     <header className=''>
                         <h3 className='font-semibold'>Work work and work 🕓</h3>
                     </header>
-                    <ul className='md:mt-8 xs:mt-3'>
+                    <ul className='md:mt-8 xs:mt-3 '>
                         {dataAbout.work.map((work, i) => (
                             <li className='list-none mt-8' key={i}>
                                 <p>- {work.title}</p>
@@ -31,7 +31,7 @@ const About = () => {
 
             <Note properties='cursor-pointer bg-[#fae29b] relative xs:bottom-32 md:bottom-52' cornerProperties='bg-[#f5db90]'>
                 <header className='mb-3'>
-                        <h3>Studies</h3>
+                        <h3>Studies</h3> 
                 </header>       
                 {dataAbout.studies.map((study, i )=> (
                     <li key={i}>{study}</li>
