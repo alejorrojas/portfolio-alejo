@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
 
-First, run the development server:
+## Alejo's Portfolio 💻
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Welcome to my portfolio! 👋
+Here you can explore a snapshot of my projects, professional experience, and educational background. It's built using Next.js 13, React, and Typescript for the frontend. The styles are made with Tailwind CSS, and I've implemented a smooth drag-and-drop effect using React Draggable.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Technologies Used 🔨
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- <b>Next.js 13</b>: Powerful React framework for efficient web development.
+- <b>React</b>: A JavaScript library for building user interfaces.
+- <b>Typescript</b>: Adds static typing to JavaScript for enhanced developer productivity.
+- <b>Tailwind CSS</b>: A utility-first CSS framework for building modern designs.
+- <b>React Draggable</b>: A React component that enables draggable functionality.
 
-## Learn More
+## Features 🌠
 
-To learn more about Next.js, take a look at the following resources:
+- <b>Project Showcase</b>: View a selection of my notable projects.
+- <b>Experience</b>: Dive into details about my professional journey.
+- <b>Education</b>: Learn about my academic background.
+- <b>About Me</b>: Get to know me a little better.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deploy on Vercel 🚀
+Open your browser and visit the <a href="https://alejorrojas.vercel.app/">web</a>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+<br>
+<br>
+<i>  Feel free to explore and reach out if you have any questions or suggestions</i>
