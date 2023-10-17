@@ -14,7 +14,7 @@ const Home = () => {
        
        <footer className="mt-6">
           <ul className="leading-relaxed">
-            <li><Link href="/work">📌 <span className="underline">Work</span></Link></li>
+            <li><Link href="/work">📌 <span className="underline">Projects</span></Link></li>
             <li><Link href="/about">📌 <span className="underline">About</span></Link></li>
             <li><Link href="/social">📌 <span className="underline">Social</span></Link></li>
           </ul>

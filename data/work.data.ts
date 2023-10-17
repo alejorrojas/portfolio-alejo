@@ -16,8 +16,8 @@ const dataWork: Work[] = [
     },
     {
      title: "Dogs API",
-     description: "https://github.com/alejorrojas/dogs-api",
-     github:"An API based on the Dogs API. See the client side integration on Dogs Deck"
+     description: "An API based on the Dogs API. See the client side integration on Dogs Deck",
+     github:"https://github.com/alejorrojas/dogs-api"
     },
 ]
 
