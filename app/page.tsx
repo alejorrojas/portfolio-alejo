@@ -13,10 +13,10 @@ const Home = () => {
         <small className="md:text-xl xs:text-base cursor-default ">Anyway, <a className="text-blue-500" href="mailto:alejoivanrojas@gmail.com">email</a> me if you have any suggestions</small>
        
        <footer className="mt-6">
-          <ul className="leading-relaxed">
-            <li><Link href="/work">📌 <span className="underline">Projects</span></Link></li>
-            <li><Link href="/about">📌 <span className="underline">About</span></Link></li>
-            <li><Link href="/social">📌 <span className="underline">Social</span></Link></li>
+          <ul className="leading-[2.5rem]">
+            <li><Link href="/work"><a>📌 <span className="underline">Projects</span></a> </Link></li>
+            <li><Link href="/about"><a>📌 <span className="underline">About</span></a> </Link></li>
+            <li><Link href="/social"><a> 📌 <span className="underline">Social</span></a> </Link></li>
           </ul>
        </footer>
       </Note>
