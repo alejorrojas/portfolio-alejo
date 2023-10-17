@@ -1,4 +1,4 @@
-import { Work } from "../types";
+import { Work } from "../app/types";
 
 /*
 @todo Migrate data to Contenfull

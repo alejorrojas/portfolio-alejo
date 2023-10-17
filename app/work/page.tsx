@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
-import dataWork from '../_data/work.data'
-import Note from '../components/Note'
+import Note from '@/components/Note'
+import dataWork from '@/data/work.data'
 
 const Work = () => {
   return (

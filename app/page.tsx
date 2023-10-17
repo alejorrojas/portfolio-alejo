@@ -1,6 +1,6 @@
 'use client'
+import Note from "@/components/Note"
 import Link from "next/link"
-import Note from "./components/Note"
 
 const Home = () => {
   return (

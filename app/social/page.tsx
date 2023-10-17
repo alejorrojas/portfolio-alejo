@@ -1,6 +1,6 @@
 'use client'
+import Note from '@/components/Note'
 import React from 'react'
-import Note from '../components/Note'
 
 const Social = () => {
   return (
