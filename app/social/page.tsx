@@ -1,11 +1,11 @@
 'use client'
 import React from 'react'
-import Note from '../features/Note'
+import Note from '../components/Note'
 
 const Social = () => {
   return (
     <main className='xs:p-2 md:p-10 min-w-screen min-h-screen'>
-        <Note properties='cursor-pointer bg-blue-200 relative left-20 top-20' cornerProperties='bg-blue-200'>
+        <Note properties='cursor-pointer bg-blue-200 relative left-20 top-20' cornerProperties='bg-blue-300'>
             <header>
                 <h3 className='mb-5'>Reach me out!</h3>
             </header>

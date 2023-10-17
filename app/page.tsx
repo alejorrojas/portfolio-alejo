@@ -1,11 +1,11 @@
 'use client'
 import Link from "next/link"
-import Note from "./features/Note"
+import Note from "./components/Note"
 
 const Home = () => {
   return (
     <main className="flex min-w-screen min-h-screen xs:p-2 md:p-10">
-      <Note>
+      <Note properties="bg-yellow-100" cornerProperties="bg-yellow-200">
         <header className="cursor-pointer">
           <p>Hey guys,</p>
           <p>This is my last-minute portfolio. I&apos;ve been busy with some serious procrastination stuff, so this is what I&apos;ve got </p>

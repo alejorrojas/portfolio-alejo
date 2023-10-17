@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import Note from '../features/Note'
+import Note from '../components/Note'
 import dataAbout from '../_data/about.data'
 
 const About = () => {
