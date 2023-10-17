@@ -13,7 +13,7 @@ const Home = () => {
         <small className="md:text-xl xs:text-base cursor-default ">Anyway, <a className="text-blue-500" href="mailto:alejoivanrojas@gmail.com">email</a> me if you have any suggestions</small>
        
        <footer className="mt-6">
-          <ul>
+          <ul className="leading-relaxed">
             <li><Link href="/work">📌 <span className="underline">Work</span></Link></li>
             <li><Link href="/about">📌 <span className="underline">About</span></Link></li>
             <li><Link href="/social">📌 <span className="underline">Social</span></Link></li>

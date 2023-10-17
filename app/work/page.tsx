@@ -2,7 +2,6 @@
 import React from 'react'
 import dataWork from '../_data/work.data'
 import Note from '../features/Note'
-import Link from 'next/link'
 
 const Work = () => {
   return (
@@ -16,7 +15,7 @@ const Work = () => {
         
         <footer className='mt-5'>
           <ul>
-            <li><Link href={work.github} >📌 <span className="underline">Github</span></Link></li>
+            <li><a target="_blank" href={work.github} >📌 <span className="underline">Github</span></a></li>
           </ul>
         </footer>
       </Note>
