@@ -24,8 +24,8 @@ export default function RootLayout({
         <body className="bg-radial-pattern">
           <nav className='w-screen top-0- md:pt-10 md:pr-32 xs:pt-5 xs:pr-10  m-0 flex justify-end items-center'>
              <Link href="https://www.linkedin.com/in/alejorrojas/" className='flex items-center'>
-                <Image src="/avatar.jpeg" width="100" height="100" alt='Avatar' className='md:w-12 xs:w-8  rounded-full shadow-lg ring-2 ring-blue-500'/>
-                <h2 className={`${itim.className} text-l ml-4`}>Alejo Rojas</h2>
+                <Image src="/avatar.jpeg" width="100" height="100" alt='Avatar' className='md:w-12 xs:w-8 rounded-full shadow-lg ring-2 ring-blue-400 hover:ring-blue-200 hover:shadow-sm hover:shadow-blue-500 transition duration-700 ease-in-out'/>
+                <h2 className={`${itim.className} text-l ml-4 hover:text-blue-400 transition duration-75 ease-in-out`}>Alejo Rojas</h2>
              </Link>
           </nav>
           {children}
