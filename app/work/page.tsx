@@ -5,7 +5,7 @@ import dataWork from '@/data/work.data'
 
 const Work = () => {
   return (
-    <main className="flex xl:flex-row xs:flex-col gap-3 min-w-screen min-h-screen xs:items-center justify-evenly xs:p-2 md:p-16">
+    <main className="flex xl:flex-row xs:flex-col gap-3 min-w-screen min-h-screen xs:items-center md:items-center lg:items-start justify-evenly xs:p-2 md:p-16">
     {dataWork.map((work, i) =>(
       <Note cancel=".footer" key={i} properties="bg-yellow-100" cornerProperties="bg-yellow-200">
         <header className='cursor-pointer'>
