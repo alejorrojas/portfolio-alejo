@@ -29,7 +29,7 @@ export default function RootLayout({
                     <h2 className={`${itim.className} md:text-2xl md:block xs:hidden  ml-4 hover:text-gray-700 transition duration-100 ease-in-out`}>Alejo</h2>
                 </a>
           </nav>
-          <Image src="/click-alejo.svg"  className='m-0 p-0 absolute z-[-1] animate-cursor ease-in-out xs:w-16 md:w-22' alt="" width={80} height={80} />
+          <Image src="/click-alejo.svg"  className='m-0 p-0 absolute z-[-1] animate-cursor ease-in-out xs:w-16 md:w-20' alt="" width={80} height={80} />
           {children}
         </body>
     </html>
