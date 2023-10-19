@@ -10,7 +10,7 @@ const itim = Itim({ weight: "400", subsets: ['latin'], variable: '--font-itim' }
 
 export const metadata: Metadata = {
   title: "Alejo Rojas",
-  description: "Welcome to my own little world (or portfolio), I'm Alejo Rojas. Passionate aspiring software engineer exploring the realms of technology. Dedicated to crafting innovative solutions through code using React, Typescript, NextJS, and Java. Lifelong learner, problem solver, and creative thinker. "
+  description: "Welcome to my own little world, I'm Alejo. Passionate aspiring software engineer exploring the realms of technology. Dedicated to crafting innovative solutions through code using React, Typescript, NextJS, and Java. Lifelong learner, problem solver, and creative thinker. Thanks for reaching out my portfolio :)"
 }
 
 export default function RootLayout({

@@ -1,4 +1,3 @@
-'use client'
 import Note from "@/components/Note"
 import Link from "next/link"
 

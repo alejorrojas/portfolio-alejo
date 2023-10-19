@@ -1,4 +1,3 @@
-'use client'
 import React from 'react'
 import Note from '@/components/Note'
 import dataAbout from '@/data/about.data'

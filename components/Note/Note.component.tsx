@@ -1,3 +1,4 @@
+'use client'
 import { FC, useRef } from "react";
 import Draggable from "react-draggable";
 import INote from "./note.types";
