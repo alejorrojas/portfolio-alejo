@@ -23,8 +23,8 @@ const config: Config = {
       },
       keyframes: {
         cursor: {
-          '0%': { transform: 'translate(100vw, 10vh)' },
-          '5%': { transform: 'translate(85vw, 15vh)' },
+          '0%': { transform: 'translate(85vw, 10vh)' },
+          '5%': { transform: 'translate(80vw, 15vh)' },
           '10%': { transform: 'translate(70vw, 30vh)' },
           '15%': { transform: 'translate(55vw, 45vh)' },
           '20%': { transform: 'translate(40vw, 6vh)' },
