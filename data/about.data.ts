@@ -8,7 +8,12 @@ const dataAbout = {
     },
     studies: ["System Engineering - present", "SoyHenry Bootcamp", "Self learning (a lot)"],
     communication: "Some experiences where I had the chance to communicate my ideas ",
-    work: [{
+    work: [
+    {
+        title: "Automation Developer - Rebill (YC W22)",
+        period: "Dec 2023 - Present"
+    },
+    {
         title: "Fullstack Developer - Digital House",
         period: "Jan 2022 - Oct 2022"
     },
