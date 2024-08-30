@@ -1,4 +1,3 @@
-<img src="https://raw.githubusercontent.com/alejorrojas/DogsDeck/master/client/src/assets/Header.png"/>
 
 ## Alejo's Portfolio 💻
 
@@ -22,7 +21,7 @@ Here you can explore a snapshot of my projects, professional experience, and edu
 - <b>About Me</b>: Get to know me a little better.
 
 ## Deploy on Vercel 🚀
-Open your browser and visit the <a href="https://alejorrojas.vercel.app/">web</a>
+Open your browser and visit the <a href="https://alejo.fun">web</a>
 
 <br>
 <br>
