@@ -5,6 +5,13 @@ import { Work } from "../app/types";
 */
 const dataWork: Work[] = [
   {
+    title: "Rebill's SDK",
+    description:
+      "I led the complete product definition and development of the Rebill SDK. The project has a strong focus on robust data security for payment processing and is designed to handle over +10K transactions per day. React and Tailwind for the frontend, NestJS for the backend, and the CI/CD pipeline fully automated with GitHub Actions and AWS. ☝️",
+    github: "https://github.com/rebillto/demo-sdk-v3",
+    reference: "https://docs.rebill.com/sdk",
+  },
+  {
     title: "Basement Supply",
     description:
       "At Basement Studio, they make cool things that perform. This challenge involves implementing a product supply with a Basement signature style, using Next 13, Tailwind, and Jest, with Cypress for testing. 🤘🚀",
@@ -12,23 +19,11 @@ const dataWork: Work[] = [
     deploy: "https://alejoxbasement.vercel.app/",
   },
   {
-    title: "Gym API",
-    description:
-      "Powerful gym management API built with NestJS and TypeScript. Utilizing TypeORM for seamless SQL database and Swagger support, the API enables essential operations CRUD and secure professor/student logins via JWT. 🏋️‍♀️💻",
-    github: "https://github.com/alejorrojas/gym-api",
-  },
-  {
     title: "Java Compiler",
     description:
       "As a project for 'Universidad Tecnologica Nacional' this Java compiler transforms XML into HTML with advanced features like syntactic analysis, error detection, and the compilation of well-structured HTML files. Emphasis is placed on understanding the syntactic analysis process and derivation trees based on language grammar. ☁⚙ ",
     github: "https://github.com/alejorrojas/utn-compiler",
-  },
-  {
-    title: "Dogs API",
-    description:
-      "Powering the backend of a community-driven dog discovery app. This NodeJS API built with TypeScript, Express, and Sequelize for Dogs Deck app. Supports POST, DELETE, and GET endpoints with filters and integrates seamlessly with an SQL database 🚀⚙",
-    github: "https://github.com/alejorrojas/dogs-api",
-  },
+  }
 ];
 
 export default dataWork;

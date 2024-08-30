@@ -3,7 +3,7 @@
 */
 const dataAbout = {
     presentation: {
-        main: "Creative by nature, logical and methodical by profession. I believe that the convergence of my experiences provides me with a solid foundation to tackle various projects in a resilient manner.",
+        main: "Born creative. I believe that the convergence of my experiences provides me with a solid foundation to tackle any project in a resilient manner.",
         aside: "I am a developer with experience in key technologies such as React, NodeJS, and a recent focus on Java" 
     },
     studies: ["System Engineering - present", "SoyHenry Bootcamp", "Self learning (a lot)"],

@@ -22,14 +22,21 @@ const Work = () => {
           <footer className="footer relative xs:top-2 md:top-10 xs:mb-10">
             <ul>
               <li>
-                <a target="_blank" href={work.github}>
+                <a target="_blank" href={work?.github}>
                   📌 <span className="underline">Github</span>
                 </a>
               </li>
-              {work.deploy && (
+              {work?.deploy && (
                 <li className="mt-1">
                   <a target="_blank" href={work.deploy}>
                     📌 <span className="underline">Deploy</span>
+                  </a>
+                </li>
+              )}
+              {work?.reference && (
+                <li className="mt-1">
+                  <a target="_blank" href={work.reference}>
+                    📌 <span className="underline">Reference</span>
                   </a>
                 </li>
               )}
