@@ -6,5 +6,6 @@ export interface Work {
     title: string,
     description: string,
     github: string,
-    deploy?: string
+    deploy?: string,
+    reference?: string
 }
