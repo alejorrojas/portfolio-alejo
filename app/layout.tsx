@@ -1,22 +1,28 @@
-import './globals.css'
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import { Itim } from 'next/font/google'
-import Image from 'next/image'
-import Link from 'next/link'
+import "./globals.css";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import { Itim } from "next/font/google";
+import Image from "next/image";
+import Link from "next/link";
 
-const inter = Inter({ subsets: ['latin'] })
-const itim = Itim({ weight: "400", subsets: ['latin'], variable: '--font-itim' })
+const inter = Inter({ subsets: ["latin"] });
+const itim = Itim({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-itim",
+});
 
 export const metadata: Metadata = {
   title: "Alejo Rojas",
   description: "Welcome to my own little world, I'm Alejo. Passionate aspiring software engineer exploring the realms of technology. Dedicated to crafting innovative solutions through code using React, Typescript, NextJS, and Java. Lifelong learner, problem solver, and creative thinker. Thanks for reaching out my portfolio :)"
 }
-
+  description:
+    "Welcome to my own little world (or portfolio), I'm Alejo Rojas. Passionate aspiring software engineer exploring the realms of technology. Dedicated to crafting innovative solutions through code using React, Typescript, NextJS, and Java. Lifelong learner, problem solver, and creative thinker. ",
+};
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
