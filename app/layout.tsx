@@ -14,10 +14,11 @@ const itim = Itim({
 
 export const metadata: Metadata = {
   title: "Alejo Rojas",
+  description: "Welcome to my own little world, I'm Alejo. Passionate aspiring software engineer exploring the realms of technology. Dedicated to crafting innovative solutions through code using React, Typescript, NextJS, and Java. Lifelong learner, problem solver, and creative thinker. Thanks for reaching out my portfolio :)"
+}
   description:
     "Welcome to my own little world (or portfolio), I'm Alejo Rojas. Passionate aspiring software engineer exploring the realms of technology. Dedicated to crafting innovative solutions through code using React, Typescript, NextJS, and Java. Lifelong learner, problem solver, and creative thinker. ",
 };
-
 export default function RootLayout({
   children,
 }: {
@@ -26,10 +27,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-radial-pattern">
-        <nav className="w-screen top-0- md:pt-10 md:pr-32 xs:pt-5 xs:pr-10  m-0 flex justify-between items-center">
+        <nav className=" w-screen top-0- md:pt-10 md:pr-32 xs:pt-5 xs:pb-5 xs:pr-10  mb-5 flex justify-between items-center">
           <Link
             href="/"
-            className={`${itim.className} text-xl pl-5 ml-4 hover:text-blue-400 transition duration-100 ease-in-out`}
+            className={`${itim.className} xs:text-xl  md:text-2xl pl-5 ml-4 hover:text-gray-500 transition duration-100 ease-in-out`}
           >
             Home
           </Link>
@@ -43,15 +44,22 @@ export default function RootLayout({
               width="100"
               height="100"
               alt="Avatar"
-              className="md:w-12 xs:w-8 rounded-full shadow-lg ring-2 ring-blue-400 hover:ring-blue-200 hover:shadow-sm hover:shadow-blue-500 transition duration-700 ease-in-out"
+              className="md:w-16 xs:w-12 rounded-full shadow-lg ring-2 ring-blue-400 hover:ring-blue-200 hover:ring-2  hover:shadow-sm hover:shadow-blue-500 transition duration-700 ease-in-out"
             />
             <h2
-              className={`${itim.className} text-l ml-4 hover:text-blue-400 transition duration-100 ease-in-out`}
+              className={`${itim.className} md:text-2xl md:block xs:hidden  ml-4 hover:text-gray-700 transition duration-100 ease-in-out`}
             >
-              Alejo Rojas
+              Alejo
             </h2>
           </a>
         </nav>
+        <Image
+          src="/click-alejo.svg"
+          className="m-0 p-0 absolute z-[-1] animate-cursor ease-in-out xs:w-16 md:w-20"
+          alt=""
+          width={80}
+          height={80}
+        />
         {children}
       </body>
     </html>

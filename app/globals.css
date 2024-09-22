@@ -9,11 +9,16 @@
 }
 
 
+
 @layer utilities {
   .bg-radial-pattern {
       background-image: radial-gradient(circle, #F0F0F0 2.5px, transparent 1px);
       background-size: 2rem 2rem;
   }
+}
+
+body{
+  overflow-x: hidden; /* Hide horizontal scrollbar */
 }
 
 nav > h2{
