@@ -10,7 +10,7 @@ const dataAbout = {
     communication: "Some experiences where I had the chance to communicate my ideas ",
     work: [
     {
-        title: "Automation Developer - Rebill (YC W22)",
+        title: "Software Engineer - Rebill (YC W22)",
         period: "Dec 2023 - Present"
     },
     {
