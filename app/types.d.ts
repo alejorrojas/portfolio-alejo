@@ -5,7 +5,7 @@ export interface ReactProps {
 export interface Work {
     title: string,
     description: string,
-    github: string,
+    github?: string,
     deploy?: string,
     reference?: string
 }

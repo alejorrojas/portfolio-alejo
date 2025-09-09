@@ -1,6 +1,6 @@
-import React from 'react'
-import Note from '@/components/Note'
-import dataWork from '@/data/work.data'
+import React from "react";
+import Note from "@/components/Note";
+import dataWork from "@/data/work.data";
 
 const Work = () => {
   return (
@@ -21,11 +21,13 @@ const Work = () => {
 
           <footer className="footer relative xs:top-2 md:top-10 xs:mb-10">
             <ul>
-              <li>
-                <a target="_blank" href={work?.github}>
-                  📌 <span className="underline">Github</span>
-                </a>
-              </li>
+              {work?.github && (
+                <li>
+                  <a target="_blank" href={work?.github}>
+                    📌 <span className="underline">Github</span>
+                  </a>
+                </li>
+              )}
               {work?.deploy && (
                 <li className="mt-1">
                   <a target="_blank" href={work.deploy}>
@@ -46,6 +48,6 @@ const Work = () => {
       ))}
     </main>
   );
-}
+};
 
-export default Work
+export default Work;

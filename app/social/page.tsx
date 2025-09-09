@@ -14,22 +14,20 @@ const Social = () => {
         </header>
         <footer className="footer">
           <ul className="leading-[2.5rem]">
+             <li>
+              <a
+                target="_blank"
+                href="https://x.com/alejorrojass"
+              >
+                📌 <span className="underline">X</span>
+              </a>
+            </li>
             <li>
               <a
                 target="_blank"
                 href="https://www.linkedin.com/in/alejorrojas/"
               >
                 📌 <span className="underline">Linkedin</span>
-              </a>
-            </li>
-            <li>
-              <a target="_blank" href="https://github.com/alejorrojas">
-                📌 <span className="underline">Github</span>
-              </a>
-            </li>
-            <li>
-              <a target="_blank" href="https://vsco.co/alejorrojas/gallery">
-                📌 <span className="underline">VSCO</span>
               </a>
             </li>
             <li>
