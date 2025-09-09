@@ -37,14 +37,17 @@ const About = () => {
                     ))}
             
             </Note>         
+            <Note properties='cursor-pointer bg-[#fae29b] relative xs:bottom-20 xs:left-20 md:bottom-[25rem] md:left-[40%]' cornerProperties='bg-[#f5db90]'>
+                <Image alt='alejo-speaker' src="/speaker-3.jpeg"  width={1000} height={1000} />            
+            </Note>
             <Note properties='cursor-pointer bg-[#fae29b] relative xs:bottom-20 xs:left-20 md:bottom-[60rem] md:left-[70%]' cornerProperties='bg-[#f5db90]'>
                 <Image alt='alejo-speaker' src="/speaker-2.png"  width={1000} height={1000} />            
             </Note>
             <Note properties='cursor-pointer bg-[#fae29b] relative xs:bottom-72 xs:right-20 md:bottom-[70rem] md:left-[70%]' cornerProperties='bg-[#f5db90]'>
                 <Image alt='alejo-speaker' src="/speaker-1.jpg" width={500} height={500} />            
             </Note>
-            <Note properties='xs:hidden md:block cursor-pointer bg-[#fae29b] relative lg:bottom-[120rem] lg:left-[60%]' cornerProperties='bg-[#f5db90]' >
-                <p>Some experiences where I had the chance to communicate my ideas </p>
+            <Note properties='xs:hidden md:block cursor-pointer bg-[#fae29b] relative lg:bottom-[130rem] lg:left-[60%]' cornerProperties='bg-[#f5db90]' >
+                <p>Some experiences where I had the chance to communicate my ideas {'->'}</p>
             </Note>
     </main>
   )
