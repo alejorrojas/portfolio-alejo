@@ -22,7 +22,7 @@ const dataWork: Work[] = [
     description:
       "At Basement Studio, they make cool things that perform. This challenge involves implementing a product supply with a Basement signature style, using Next 13, Tailwind, and Jest, with Cypress for testing.",
     github: "https://github.com/alejorrojas/basement-challenge",
-    deploy: "https://alejoxbasement.vercel.app/",
+    deploy: "https://basement.alejorrojas.com/",
   },
 ];
 
