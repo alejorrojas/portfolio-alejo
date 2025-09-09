@@ -3,8 +3,8 @@
 */
 const dataAbout = {
     presentation: {
-      main: "Born creative. My experiences have given me a strong foundation to tackle any challenge, and I’ve learned that I do my best work when I’m genuinely passionate about the product I’m building.",
-      aside: "* 1999’s startups nostalgic"
+        main: "Born creative. I believe my experiences have given me a strong foundation to approach any challenge. I do my best work when I’m genuinely passionate about the product I’m building :).",
+        aside: "* 1999’s startups nostalgic"
     },
     studies: ["System Engineering (UTN) - present", "Self learning (a lot)"],
     communication: "Some experiences where I had the chance to communicate my ideas ",
