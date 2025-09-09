@@ -8,7 +8,7 @@ const About = () => {
     <main className='min-w-screen min-h-screen xs:p-2 md:p-10 xs:items-center'>
             <Note properties='cursor-pointer bg-[#fae29b]' cornerProperties='bg-[#f5db90]'>
                 <header className=' mb-3'>
-                    <h3>Hi, I&apos;m Alejo <span className='font-semibold'>:)</span></h3>
+                    <h3>Hi, I&apos;m Alejo <span className='font-semibold'></span></h3>
                 </header>
                 <p className='leading-relaxed  ' >{dataAbout.presentation.main}</p>
                 <p className='leading-relaxed ' >{dataAbout.presentation.aside}</p>
