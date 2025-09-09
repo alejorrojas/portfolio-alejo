@@ -11,19 +11,19 @@ const dataWork: Work[] = [
     github: "https://github.com/rebillto/demo-sdk-v3",
     reference: "https://docs.rebill.com/sdk",
   },
+   {
+    title: "Coolbooks 📓",
+    description:
+      "Discover and organize books from social media. Simply paste links from X, TikTok, or Instagram - books are automatically detected and saved to your personal library for easy collection management.",
+    deploy: "https://coolbooks.in",
+  },
   {
     title: "Basement Supply",
     description:
-      "At Basement Studio, they make cool things that perform. This challenge involves implementing a product supply with a Basement signature style, using Next 13, Tailwind, and Jest, with Cypress for testing. 🤘🚀",
+      "At Basement Studio, they make cool things that perform. This challenge involves implementing a product supply with a Basement signature style, using Next 13, Tailwind, and Jest, with Cypress for testing.",
     github: "https://github.com/alejorrojas/basement-challenge",
     deploy: "https://alejoxbasement.vercel.app/",
   },
-  {
-    title: "Java Compiler",
-    description:
-      "As a project for 'Universidad Tecnologica Nacional' this Java compiler transforms XML into HTML with advanced features like syntactic analysis, error detection, and the compilation of well-structured HTML files. Emphasis is placed on understanding the syntactic analysis process and derivation trees based on language grammar. ☁⚙ ",
-    github: "https://github.com/alejorrojas/utn-compiler",
-  }
 ];
 
 export default dataWork;
