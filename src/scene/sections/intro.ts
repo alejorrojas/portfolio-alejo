@@ -41,7 +41,7 @@ export const intro = (): Skeleton[] => {
     ...note(640, 318, 340, 110 + SOCIALS.length * 42, { id: "intro-contact", color: INK.black }),
     text(665, 343, "reach me out!", { size: 30, color: INK.blue }),
     ...SOCIALS.map((social, i) =>
-      text(670, 403 + i * 42, `-> ${social.handle}`, { size: 22, link: social.href }),
+      text(670, 403 + i * 42, `→ ${social.handle}`, { size: 22, link: social.href }),
     ),
   ];
 };

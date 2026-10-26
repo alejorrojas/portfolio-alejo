@@ -38,8 +38,8 @@ export const research = (x: number, y: number) => {
     ...boxes.slice(0, -1).map((box, i) =>
       arrow(box.x + boxWidth + 4, boxY + 50, [[0, 0], [gap - 8, 0]], { start: box.id, end: boxes[i + 1].id }),
     ),
-    text(x, boxY + 140, "one-off NLA explorations -> reproducible, comparable experiments", { size: 20, color: INK.gray }),
-    text(x + 700, boxY + 200, "read the paper ->", { size: 26, color: ACCENT, link: PAPER_URL }),
+    text(x, boxY + 140, "one off NLA explorations → reproducible, comparable experiments", { size: 20, color: INK.gray }),
+    text(x + 700, boxY + 200, "read the paper →", { size: 26, color: ACCENT, link: PAPER_URL }),
     ...window.elements,
   ];
   return { elements, websites: [window.slot] };

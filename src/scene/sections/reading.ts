@@ -75,7 +75,7 @@ export const reading = (x: number, y: number) => {
     tape(x + CHALLENGE.width - 20, y + 140, 18),
     text(x + 1150, y + 400, "hover a book", { size: 24, color: INK.blue }),
     ...books.elements,
-    text(x + 340, y + 1060, "-> the full shelf lives on goodreads", { size: 24, color: INK.blue, link: GOODREADS }),
+    text(x + 340, y + 1060, "→ the full shelf lives on goodreads", { size: 24, color: INK.blue, link: GOODREADS }),
   ];
   return { elements, books: books.slots };
 };

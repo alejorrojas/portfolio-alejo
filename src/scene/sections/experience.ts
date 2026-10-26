@@ -18,7 +18,7 @@ const doodles: Record<string, (x: number, y: number) => Skeleton[]> = {
     text(x + 17, y + 15, "**********", { size: 16, color: INK.gray, angle: 0 }),
     text(x + 14, y + 44, "**** 4242", { size: 16, color: INK.gray, angle: 0 }),
     image(x + 150, y + 10, 56, 56, "logo-yc"),
-    text(x + 221, y + 24, "<- YC W22!!", { size: 20, color: YC_ORANGE }),
+    text(x + 221, y + 24, "← YC W22!!", { size: 20, color: YC_ORANGE }),
   ],
 };
 
@@ -31,7 +31,7 @@ const job = (item: Job, x: number, y: number, index: number) => {
     image(x, y, item.logo.width, item.logo.height, item.logo.fileId),
     text(x, y + item.logo.height + 24, item.role, { size: 34 }),
     text(x, y + item.logo.height + 72, `${item.company} · ${item.period}`, { size: 20, color: INK.gray }),
-    text(x, y + item.logo.height + 120, item.bullets.map((b) => (b.startsWith("(") ? `   ${b}` : `- ${b}`)).join("\n"), {
+    text(x, y + item.logo.height + 120, item.bullets.map((b) => (b.startsWith("(") ? `   ${b}` : `· ${b}`)).join("\n"), {
       size: 22,
     }),
     ...(doodle ? doodle(x + 20, y + item.logo.height + 140 + item.bullets.length * 34) : []),
@@ -44,7 +44,7 @@ const yearsOf = (period: string) => {
   const found = period.match(/\d{4}/g) ?? [];
   const first = found[0];
   const last = found[found.length - 1];
-  return first === last ? first : `${first}–${last.slice(2)}`;
+  return first === last ? first : `${first}/${last.slice(2)}`;
 };
 
 const rowY = (y: number, i: number) => y + 200 + i * ROW;

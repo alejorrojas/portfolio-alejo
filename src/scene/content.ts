@@ -45,8 +45,8 @@ export const JOBS: Job[] = [
       "built Signa, The Network's people search engine",
       "(used by half of Tier 1 VCs & top AI labs)",
       "shipped tracking lists, daily signals & enrichment",
-      "turned AI-ranked founder data into a clean, fast UI",
-      "pixel-perfect product, built side by side with design",
+      "turned AI ranked founder data into a clean, fast UI",
+      "pixel perfect product, built side by side with design",
     ],
   },
   {
@@ -57,8 +57,8 @@ export const JOBS: Job[] = [
     logo: { fileId: "logo-rebill", width: 190, height: 41 },
     bullets: [
       "led architecture & launch of the Rebill SDK",
-      "(1-click checkout, hundreds of tx a day)",
-      "PCI-compliant AWS infra with automated deploys",
+      "(one click checkout, hundreds of tx a day)",
+      "PCI compliant AWS infra with automated deploys",
       "(ECS, WAF, VPCs, API Gateways, load balancers)",
       "fast Next.js platform, tuned with SSR / SSG / CSR",
       "docs & dev guides that cut integration time",
@@ -74,7 +74,7 @@ export const JOBS: Job[] = [
       "led the Certified Tech Developer curriculum",
       "(w/ Globant & Mercado Libre)",
       "cut class & project development time by 40%",
-      "80% success rate on long-term learning plans",
+      "80% success rate on long term learning plans",
       "React / Next.js sites with a 98 SEO score",
       "ran technical interviews",
     ],
@@ -135,7 +135,7 @@ export const BOOKS_2026: Book[] = [
     author: "Solvej Balle",
     rating: 4,
     review:
-      "Compared to how striking and introspective the first one was, I'd give it a 3.5. Still a really good continuation. My biggest gripe with book one was that the protagonist never acted on her free will — here that side finally gets developed, along with family, relationships and loneliness. And it nails something the first one didn't: the ending leaves you wanting the next one.",
+      "Compared to how striking and introspective the first one was, I'd give it a 3.5. Still a really good continuation. My biggest gripe with book one was that the protagonist never acted on her free will. Here that side finally gets developed, along with family, relationships and loneliness. And it nails something the first one didn't: the ending leaves you wanting the next one.",
   },
   {
     slug: "el-volumen-del-tiempo-i", url: "https://www.goodreads.com/review/show/8980697098",
@@ -143,7 +143,7 @@ export const BOOKS_2026: Book[] = [
     author: "Solvej Balle",
     rating: 4,
     review:
-      "4.5 stars. Found it by accident at a café while killing time before a flight. Read for 3 hours straight and bought it before leaving — one of my best buys this year. The premise is well known (someone stuck in a day that keeps repeating), but the angle is different: loneliness, love, distance and free will. I'll admit this theme fascinates me, so I might be biased. Stealing a line from another review: \"This is absolutely a vibes > plot read.\" Also, the physical book is sooo pretty.",
+      "4.5 stars. Found it by accident at a café while killing time before a flight. Read for 3 hours straight and bought it before leaving. One of my best buys this year. The premise is well known (someone stuck in a day that keeps repeating), but the angle is different: loneliness, love, distance and free will. I'll admit this theme fascinates me, so I might be biased. Stealing a line from another review: \"This is absolutely a vibes > plot read.\" Also, the physical book is sooo pretty.",
   },
   {
     slug: "the-stranger", url: "https://www.goodreads.com/review/show/7516587494",
@@ -151,7 +151,7 @@ export const BOOKS_2026: Book[] = [
     author: "Albert Camus",
     rating: 3,
     review:
-      "Amazing and very short. If you ever saw the cover and thought \"I have to read this someday\", go for it — it says a lot in very little. I'd recommend watching some videos on Camus' philosophy of the absurd to tie it all together, not just as a novel but as philosophy told through fiction. Rate 3.5.",
+      "Amazing and very short. If you ever saw the cover and thought \"I have to read this someday\", go for it. It says a lot in very little. I'd recommend watching some videos on Camus' philosophy of the absurd to tie it all together, not just as a novel but as philosophy told through fiction. Rate 3.5.",
   },
   { slug: "13-99-euros", url: "https://www.goodreads.com/review/show/8706191537", title: "13,99 euros", author: "Frédéric Beigbeder", rating: 2 },
   {
@@ -160,7 +160,7 @@ export const BOOKS_2026: Book[] = [
     author: "Fyodor Dostoevsky",
     rating: 2,
     review:
-      "Felt long and only picks up in the final stretch. The highlight is how it captures the psychology of a gambling addict — even more knowing Dostoevsky was going through the same thing while writing it. A line ChatGPT gave me while talking about it: \"it reads more like a confession than fiction\".",
+      "Felt long and only picks up in the final stretch. The highlight is how it captures the psychology of a gambling addict, even more knowing Dostoevsky was going through the same thing while writing it. A line ChatGPT gave me while talking about it: \"it reads more like a confession than fiction\".",
   },
   {
     slug: "pequeno-tratado-sobre-la-amistad", url: "https://www.goodreads.com/review/show/8649625066",
@@ -194,7 +194,7 @@ export const BOOKS_2026: Book[] = [
     author: "Patti Smith",
     rating: 5,
     review:
-      "One of the most beautiful love stories I've ever read. Not just romantic love, but love for art, creation and expression — their life of having almost nothing, yet somehow enough to keep making art. Told with a beauty only Patti could pull off. I loved looking up the photos, songs and short films they made while I was reading. Highly recommended. The ending crushed me.",
+      "One of the most beautiful love stories I've ever read. Not just romantic love, but love for art, creation and expression. Their life of having almost nothing, yet somehow enough to keep making art. Told with a beauty only Patti could pull off. I loved looking up the photos, songs and short films they made while I was reading. Highly recommended. The ending crushed me.",
   },
 ];
 
@@ -213,11 +213,11 @@ export const OPEN_SOURCE: Contribution[] = [
     repo: "simpleble/simpleble",
     preview: "repo-simpleble",
     stars: "1.1k",
-    about: "cross-platform Bluetooth library",
+    about: "cross platform Bluetooth library",
     prs: [
       { title: "the new docs site", url: "https://github.com/simpleble/simpleble/pull/439" },
       { title: "MCP server + Agent Skills", url: "https://github.com/simpleble/simpleble/pull/443" },
-      { title: "step-by-step getting started guide", url: "https://github.com/simpleble/simpleble/pull/456" },
+      { title: "step by step getting started guide", url: "https://github.com/simpleble/simpleble/pull/456" },
       { title: "fix scan stop on Windows", url: "https://github.com/simpleble/simpleble/pull/449" },
     ],
     more: { label: "+ 13 more", url: "https://github.com/simpleble/simpleble/pulls?q=is%3Apr+author%3Aalejorrojas" },
