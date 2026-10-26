@@ -1,0 +1,180 @@
+html,
+body,
+#root,
+.portfolio {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.portfolio .excalidraw__canvas {
+  opacity: 0;
+  transition: opacity 200ms ease-in;
+}
+
+.portfolio--ready .excalidraw__canvas {
+  opacity: 1;
+}
+
+.excalidraw .Avatar-img {
+  object-fit: cover;
+}
+
+.portfolio--over-link .excalidraw__canvas.interactive {
+  cursor: pointer !important;
+}
+
+.portfolio {
+  position: relative;
+}
+
+/* Above the canvases (z-index 1-2), below Excalidraw's UI (z-index 4). */
+.scene-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 200ms ease-in;
+}
+
+.portfolio--ready .scene-layer {
+  opacity: 1;
+}
+
+.scene-layer__world {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.scene-layer__site {
+  position: absolute;
+  overflow: hidden;
+  background: #f1f3f5;
+  pointer-events: auto;
+}
+
+.scene-layer__site--screenshot {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: #ffffff;
+}
+
+.scene-layer__site--screenshot img {
+  display: block;
+  width: 100%;
+}
+
+.scene-layer__site iframe {
+  display: block;
+  border: 0;
+  transform-origin: 0 0;
+  background: #ffffff;
+}
+
+.scene-layer__underline {
+  position: absolute;
+  height: 10px;
+  overflow: visible;
+  fill: none;
+  stroke: #1971c2;
+  stroke-width: 2.5px;
+  stroke-linecap: round;
+  animation: link-draw 160ms ease-out;
+}
+
+.scene-layer__outline {
+  position: absolute;
+  box-sizing: border-box;
+  border: 2px dashed #1971c2;
+  border-radius: 14px 6px 12px 5px / 6px 12px 5px 14px;
+  animation: link-draw 160ms ease-out;
+}
+
+@keyframes link-draw {
+  from {
+    opacity: 0;
+  }
+}
+
+.book-card {
+  --card-ink: #1e1e1e;
+  --card-paper: #ffffff;
+  --card-muted: #868e96;
+  position: absolute;
+  z-index: 3;
+  box-sizing: border-box;
+  padding: 10px 13px 10px;
+  pointer-events: none;
+  font-family: "Virgil", "Excalifont", "Comic Sans MS", cursive;
+  color: var(--card-ink);
+  background: var(--card-paper);
+  border: 2px solid var(--card-ink);
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  box-shadow: 3px 4px 0 var(--card-muted);
+  transform: rotate(-1deg);
+  animation: book-card-in 120ms ease-out;
+}
+
+.portfolio:has(.excalidraw.theme--dark) .book-card {
+  --card-ink: #e3e3e8;
+  --card-paper: #121212;
+  --card-muted: #5c5f66;
+}
+
+.book-card__stars {
+  font-size: 15px;
+  letter-spacing: 1px;
+  color: #1971c2;
+}
+
+.book-card__title {
+  margin-top: 3px;
+  font-size: 16px;
+  line-height: 1.15;
+}
+
+.book-card__author {
+  font-size: 12px;
+  color: var(--card-muted);
+}
+
+.book-card__review {
+  display: -webkit-box;
+  margin: 6px 0 0;
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 1.35;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 7;
+}
+
+@keyframes book-card-in {
+  from {
+    opacity: 0;
+    transform: rotate(-1deg) translateY(4px);
+  }
+}
+
+/* Keep only the basic drawing tools, without Excalidraw's hints. */
+.excalidraw .HintViewer,
+.excalidraw .ToolIcon__lock,
+.excalidraw .App-toolbar__extra-tools-trigger,
+.excalidraw .App-toolbar__divider,
+.excalidraw .sidebar-trigger__label-element,
+.excalidraw .help-icon,
+.excalidraw .zoom-actions,
+.excalidraw .undo-redo-buttons {
+  display: none !important;
+}
+
+/* Portfolio elements must stay locked. */
+.excalidraw .context-menu li[data-testid="unlockAllElements"],
+.excalidraw .context-menu li[data-testid="toggleElementLock"] {
+  display: none;
+}
