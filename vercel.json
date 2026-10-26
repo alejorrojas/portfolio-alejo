@@ -1,0 +1,6 @@
+{
+  "framework": "vite",
+  "outputDirectory": "dist",
+  "installCommand": "bun install",
+  "buildCommand": "bun run build"
+}
