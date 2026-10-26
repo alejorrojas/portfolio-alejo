@@ -43,7 +43,7 @@ export const openSource = (x: number, y: number): Skeleton[] => {
   return [
     ...heading(x, y, "Open source", { underline: 240 }),
     ...cards,
-    text(x + CARD.perRow * (CARD.width + CARD.gap) - 470, rowTop + 10, "-> everything else lives on github", {
+    text(x + CARD.perRow * (CARD.width + CARD.gap) - 470, rowTop + 10, "→ everything else lives on github", {
       size: 24,
       color: INK.blue,
       link: "https://github.com/alejorrojas",

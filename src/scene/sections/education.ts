@@ -6,7 +6,7 @@ export const education = (x: number, y: number): Skeleton[] => [
 
   image(x, y + 150, 300, 141, "logo-utn"),
   text(x + 340, y + 160, "Systems Engineering\n@ UTN FRRe", { size: 34 }),
-  text(x + 340, y + 258, "2022 -> 2027", { size: 22, color: INK.gray }),
+  text(x + 340, y + 258, "2022 → 2027", { size: 22, color: INK.gray }),
 
   ...note(x + 158, y + 384, 380, 220, { color: INK.black }),
   text(x + 182, y + 409, "certifications", { size: 26, color: INK.blue }),
