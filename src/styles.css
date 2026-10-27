@@ -358,19 +358,23 @@ body,
   }
 
   .excalidraw .App-toolbar-content {
+    position: relative;
     padding: 0;
     justify-content: flex-start;
   }
 
-  .excalidraw .App-toolbar-content > :not(:first-child) {
+  /* Hide bottom-bar actions, but keep the open MainMenu dropdown visible. */
+  .excalidraw .App-toolbar-content > :not(:first-child):not(.dropdown-menu) {
     display: none !important;
   }
 
-  /* Menu opens below the top-left trigger, not above a bottom bar. */
+  /* Menu opens below the top-left trigger (parent is only as wide as the burger). */
   .excalidraw .App-toolbar-content .dropdown-menu--mobile {
     top: calc(100% + 8px);
     bottom: auto;
     left: 0;
     right: auto;
+    width: min(18rem, calc(100vw - 2 * var(--editor-container-padding, 1rem)));
+    z-index: 10;
   }
 }
