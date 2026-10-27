@@ -10,12 +10,20 @@ const START_DELAY_MS = 1200;
 const CAMERA_EASE = 0.12;
 const TOUR_MIN_HOP = 700;
 
-const ALEJO: Collaborator = {
-  id: SOCKET_ID,
+/** Shared identity for the fake collaborator (cursor + follow avatar). */
+export const PRESENCE = {
   socketId: SOCKET_ID,
   username: "alejo",
   avatarUrl: "/images/photos/avatar.webp",
   color: { background: "#1971c2", stroke: "#1971c2" },
+} as const;
+
+const ALEJO: Collaborator = {
+  id: SOCKET_ID,
+  socketId: SOCKET_ID,
+  username: PRESENCE.username,
+  avatarUrl: PRESENCE.avatarUrl,
+  color: { ...PRESENCE.color },
 };
 
 type Point = { x: number; y: number };

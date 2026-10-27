@@ -21,6 +21,53 @@ body,
   object-fit: cover;
 }
 
+/*
+ * Mobile follow avatar — Excalidraw only paints UserList on desktop.
+ * Sit on the same row as the burger (top-left), mirrored to the top-right.
+ */
+.presence-follow {
+  display: none;
+}
+
+@media screen and (max-width: 730px), screen and (max-height: 500px) and (max-width: 1000px) {
+  .presence-follow {
+    position: fixed;
+    top: var(--editor-container-padding, 1rem);
+    right: var(--editor-container-padding, 1rem);
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    border: none;
+    border-radius: var(--border-radius-lg, 0.5rem);
+    background-color: var(--color-surface-low, #f1f0ff);
+    box-shadow: 0 0 0 1px var(--color-surface-lowest, #fff);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .presence-follow:active {
+    box-shadow: 0 0 0 1px var(--color-brand-active, #6965db);
+  }
+
+  .presence-follow--active {
+    box-shadow: 0 0 0 2px var(--color-primary, #6965db);
+  }
+
+  .presence-follow__img {
+    display: block;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+    pointer-events: none;
+  }
+}
+
 .portfolio--over-link .excalidraw__canvas.interactive {
   cursor: pointer !important;
 }

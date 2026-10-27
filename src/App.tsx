@@ -17,9 +17,10 @@ import { createLinks } from "./links";
 import { PortfolioMenu } from "./menu";
 import { BookCard, bookAt } from "./overlay/BookCard";
 import type { HoveredBook } from "./overlay/BookCard";
+import { PresenceFollow } from "./overlay/PresenceFollow";
 import { followViewport, SceneLayer } from "./overlay/SceneLayer";
 import type { LinkHighlight } from "./overlay/SceneLayer";
-import { startPresence } from "./presence";
+import { PRESENCE, startPresence } from "./presence";
 import { createProtection } from "./protection";
 import { buildScene, INITIAL_VIEW_IDS, SCENE_FILES, SCENE_FONTS } from "./scene";
 import type { BookSlot, WebsiteSlot } from "./scene";
@@ -86,6 +87,7 @@ export function App() {
   const [hoveredBook, setHoveredBook] = useState<HoveredBook | null>(null);
   const hoveredLinkIdRef = useRef<string | null>(null);
   const [hoveredLink, setHoveredLink] = useState<LinkHighlight | null>(null);
+  const [following, setFollowing] = useState(false);
 
   const initialData = useMemo<Promise<ExcalidrawInitialDataState>>(async () => {
     const files = await loadSceneFiles(SCENE_FILES);
@@ -209,6 +211,8 @@ export function App() {
       if (apiRef.current) {
         protectionRef.current?.enforce(apiRef.current, elements, appState);
       }
+      const nextFollowing = appState.userToFollow?.socketId === PRESENCE.socketId;
+      setFollowing((prev) => (prev === nextFollowing ? prev : nextFollowing));
     },
     [],
   );
@@ -300,6 +304,7 @@ export function App() {
       </Excalidraw>
       <SceneLayer ref={worldRef} websites={websites} link={hoveredLink} onPan={panCanvas} />
       {hoveredBook && <BookCard hovered={hoveredBook} />}
+      {ready && <PresenceFollow api={apiRef.current} following={following} />}
     </div>
   );
 }
