@@ -43,28 +43,24 @@ body,
     height: 2rem;
     padding: 0;
     border: none;
-    border-radius: var(--border-radius-lg, 0.5rem);
-    background-color: var(--color-surface-low, #f1f0ff);
-    box-shadow: 0 0 0 1px var(--color-surface-lowest, #fff);
+    border-radius: 50%;
+    background: transparent;
+    box-shadow: none;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
   }
 
-  .presence-follow:active {
-    box-shadow: 0 0 0 1px var(--color-brand-active, #6965db);
-  }
-
-  .presence-follow--active {
-    box-shadow: 0 0 0 2px var(--color-primary, #6965db);
-  }
-
   .presence-follow__img {
     display: block;
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.75rem;
+    height: 1.75rem;
     border-radius: 50%;
     object-fit: cover;
     pointer-events: none;
+  }
+
+  .presence-follow--active .presence-follow__img {
+    box-shadow: 0 0 0 2px var(--color-primary, #6965db);
   }
 }
 
