@@ -38,19 +38,32 @@ const UI_OPTIONS = {
   tools: { image: false },
 } as const;
 
-/** Screen pixels covered by the toolbar; the first view is centered below it. */
+/** Screen pixels covered by the toolbar; the first view is centered in the free area. */
 const TOOLBAR_CLEARANCE = 40;
 const FIRST_VIEW_FILL = 0.85;
 
+/** Matches Excalidraw's `isMobileBreakpoint` (portrait width, or short landscape). */
+const isMobileViewport = () => {
+  const width = document.body.clientWidth;
+  const height = document.body.clientHeight;
+  return width < 730 || (height < 500 && width < 1000);
+};
+
 /** Fits `elements` into the part of the screen the toolbar doesn't cover. */
-const viewBelowToolbar = (elements: readonly ExcalidrawElement[], { width, height }: AppState) => {
+const viewBelowToolbar = (
+  elements: readonly ExcalidrawElement[],
+  { width, height }: AppState,
+  mobile: boolean,
+) => {
   const [minX, minY, maxX, maxY] = getCommonBounds(elements);
   const free = height - TOOLBAR_CLEARANCE;
   const zoom = Math.min(width / (maxX - minX), free / (maxY - minY)) * FIRST_VIEW_FILL;
+  // Desktop toolbar sits on top; mobile tools sit at the bottom (Excalidraw layout).
+  const centerY = mobile ? free / 2 : TOOLBAR_CLEARANCE + free / 2;
   return {
     zoom: { value: zoom as NormalizedZoomValue },
     scrollX: width / 2 / zoom - (minX + maxX) / 2,
-    scrollY: (TOOLBAR_CLEARANCE + free / 2) / zoom - (minY + maxY) / 2,
+    scrollY: centerY / zoom - (minY + maxY) / 2,
   };
 };
 
@@ -132,7 +145,12 @@ export function App() {
         setWebsites(scene.websites);
 
         const focus = scene.elements.filter((element) => INITIAL_VIEW_IDS.has(element.id));
-        api.updateScene({ appState: viewBelowToolbar(focus, api.getAppState()) });
+        const mobile = isMobileViewport();
+        api.updateScene({ appState: viewBelowToolbar(focus, api.getAppState(), mobile) });
+        // Mobile: default to the hand tool so the canvas can be panned immediately.
+        if (mobile) {
+          api.setActiveTool({ type: "hand" });
+        }
         setReady(true);
         stopPresenceRef.current ??= startPresence(api);
       });
