@@ -273,6 +273,7 @@ body,
    * (MainMenu is the first child of App-toolbar-content.)
    */
   .excalidraw .App-bottom-bar {
+    position: fixed !important;
     inset: auto;
     top: var(--editor-container-padding);
     left: var(--editor-container-padding);
