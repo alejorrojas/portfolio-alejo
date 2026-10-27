@@ -128,6 +128,7 @@ body,
 }
 
 .scene-layer__frame {
+  position: relative;
   width: 100%;
   height: 100%;
   overflow: clip;
@@ -142,6 +143,45 @@ body,
 .scene-layer__frame--scroll img {
   display: block;
   width: 100%;
+}
+
+.scene-layer__still {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  pointer-events: none;
+}
+
+.scene-layer__still--loading {
+  filter: grayscale(1) brightness(0.78);
+}
+
+.scene-layer__loader {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.scene-layer__spinner {
+  width: 54px;
+  height: 54px;
+  border: 5px solid rgba(30, 30, 30, 0.18);
+  border-top-color: #1e1e1e;
+  border-radius: 50%;
+  animation: site-spin 0.7s linear infinite;
+}
+
+@keyframes site-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .scene-layer__site iframe {

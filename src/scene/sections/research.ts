@@ -13,7 +13,9 @@ export const research = (x: number, y: number) => {
   const gap = 46;
   const boxY = y + 420;
   const boxes = PIPELINE.map((label, i) => ({ id: `nla-step-${i}`, label, x: x + i * (boxWidth + gap) }));
-  const window = browserWindow("site-nlasmith", x + 1060, y + 120, 760, 470, "https://nlasmith.com");
+  const window = browserWindow("site-nlasmith", x + 1060, y + 120, 760, 470, "https://nlasmith.com", {
+    preview: "/images/sites/nlasmith.webp",
+  });
 
   const elements: Skeleton[] = [
     ...heading(x, y, "research", { underline: 240 }),

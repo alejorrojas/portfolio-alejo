@@ -71,60 +71,80 @@ const ScrollChain = ({ onPan, children }: { onPan: Props["onPan"]; children: Rea
   );
 };
 
-const PAN_EVENT = "portfolio-pan";
+type Phase = "still" | "loading" | "live";
 
-/** Cross-origin pages stay unloaded until their window actually sits on screen. */
+/** How long the gray landing stays up once hover starts, even if the page is already here. */
+const LOADER_MS = 1000;
+
+/**
+ * A landing still until hover. Then that same still goes gray under a spinner,
+ * and the live page replaces it once it has loaded and the spinner has had its second.
+ */
 const FramedSite = ({ site }: { site: WebsiteSlot }) => {
-  const frameRef = useRef<HTMLDivElement>(null);
-  const [live, setLive] = useState(false);
+  const [phase, setPhase] = useState<Phase>(site.screenshot ? "live" : "still");
+  const [iframeReady, setIframeReady] = useState(false);
+  const started = useRef(0);
 
-  useEffect(() => {
-    const frame = frameRef.current;
-    if (!frame || site.screenshot) {
+  const onEnter = () => {
+    if (site.screenshot || phase !== "still") {
       return;
     }
-    const arm = () => {
-      const rect = frame.getBoundingClientRect();
-      const near =
-        rect.bottom > -160 &&
-        rect.right > -160 &&
-        rect.top < window.innerHeight + 160 &&
-        rect.left < window.innerWidth + 160;
-      if (!near) {
-        return;
-      }
-      setLive(true);
-      window.removeEventListener(PAN_EVENT, arm);
-    };
-    arm();
-    window.addEventListener(PAN_EVENT, arm);
-    return () => window.removeEventListener(PAN_EVENT, arm);
-  }, [site.screenshot]);
+    started.current = performance.now();
+    setPhase("loading");
+  };
+
+  useEffect(() => {
+    if (phase !== "loading" || !iframeReady) {
+      return;
+    }
+    const wait = Math.max(0, LOADER_MS - (performance.now() - started.current));
+    const timer = window.setTimeout(() => setPhase("live"), wait);
+    return () => window.clearTimeout(timer);
+  }, [iframeReady, phase]);
+
+  if (site.screenshot) {
+    return (
+      <div className="scene-layer__frame scene-layer__frame--scroll">
+        {/* Not a link: open the site via the canvas title (`host ↗`) only. */}
+        <img src={site.screenshot} alt={new URL(site.url).host} loading="lazy" draggable={false} />
+      </div>
+    );
+  }
+
+  const frame = {
+    width: site.width / SITE_SCALE,
+    height: site.height / SITE_SCALE,
+    transform: `scale(${SITE_SCALE})`,
+    opacity: phase === "live" ? 1 : 0,
+    pointerEvents: phase === "live" ? ("auto" as const) : ("none" as const),
+  };
 
   return (
-    <div
-      ref={frameRef}
-      className={site.screenshot ? "scene-layer__frame scene-layer__frame--scroll" : "scene-layer__frame"}
-    >
-      {site.screenshot ? (
-        // Not a link: open the site via the canvas title (`host ↗`) only.
-        <img src={site.screenshot} alt={new URL(site.url).host} loading="lazy" draggable={false} />
-      ) : (
-        live && (
-          <iframe
-            src={site.url}
-            title={new URL(site.url).host}
-            // No allow-popups / allow-top-navigation: browsing stays inside the frame;
-            // the canvas title link is what opens the real site.
-            sandbox="allow-scripts allow-same-origin allow-forms"
-            referrerPolicy="no-referrer"
-            style={{
-              width: site.width / SITE_SCALE,
-              height: site.height / SITE_SCALE,
-              transform: `scale(${SITE_SCALE})`,
-            }}
-          />
-        )
+    <div className="scene-layer__frame" onPointerEnter={onEnter}>
+      {phase !== "live" && (
+        <img
+          className={phase === "loading" ? "scene-layer__still scene-layer__still--loading" : "scene-layer__still"}
+          src={site.preview}
+          alt={new URL(site.url).host}
+          draggable={false}
+        />
+      )}
+      {phase === "loading" && (
+        <div className="scene-layer__loader" aria-hidden>
+          <span className="scene-layer__spinner" />
+        </div>
+      )}
+      {phase !== "still" && (
+        <iframe
+          src={site.url}
+          title={new URL(site.url).host}
+          // No allow-popups / allow-top-navigation: browsing stays inside the frame;
+          // the canvas title link is what opens the real site.
+          sandbox="allow-scripts allow-same-origin allow-forms"
+          referrerPolicy="no-referrer"
+          onLoad={() => setIframeReady(true)}
+          style={frame}
+        />
       )}
     </div>
   );
@@ -178,6 +198,5 @@ export const SceneLayer = forwardRef<HTMLDivElement, Props>(function SceneLayer(
 export const followViewport = (world: HTMLElement | null, scrollX: number, scrollY: number, zoom: number) => {
   if (world) {
     world.style.transform = `scale(${zoom}) translate(${scrollX}px, ${scrollY}px)`;
-    window.dispatchEvent(new Event(PAN_EVENT));
   }
 };

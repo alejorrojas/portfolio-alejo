@@ -2,3 +2,4 @@ node_modules
 dist
 public/fonts
 .DS_Store
+edits.json
