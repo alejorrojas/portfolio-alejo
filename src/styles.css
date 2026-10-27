@@ -13,6 +13,11 @@ body,
   transition: opacity 200ms ease-in;
 }
 
+/* Excalidraw's own splash. The first view is ready without it. */
+.LoadingMessage {
+  display: none !important;
+}
+
 .portfolio--ready .excalidraw__canvas {
   opacity: 1;
 }
@@ -92,7 +97,6 @@ body,
   top: 0;
   left: 0;
   transform-origin: 0 0;
-  will-change: transform;
 }
 
 .scene-layer__site {
@@ -179,8 +183,8 @@ body,
   position: absolute;
   z-index: 3;
   box-sizing: border-box;
-  max-width: calc(100vw - 24px);
-  max-height: calc(100vh - 24px);
+  max-width: calc(100% - 24px);
+  max-height: calc(100% - 24px);
   padding: 10px 13px 10px;
   overflow: auto;
   /* Allow scrolling a long review on touch; clicks still pass through empty canvas. */
@@ -267,20 +271,27 @@ body,
  * Breakpoints match Excalidraw's isMobileBreakpoint.
  */
 @media screen and (max-width: 730px), screen and (max-height: 500px) and (max-width: 1000px) {
-  /* Floating tools island at the bottom center. */
+  /*
+   * Floating tools island at the bottom center.
+   * No translate, no vw: on iOS those resize with the address bar and crash the tab.
+   */
   .excalidraw .App-toolbar-container {
     position: fixed;
-    left: 50%;
+    left: 0;
+    right: 0;
     bottom: calc(12px + env(safe-area-inset-bottom, 0px));
-    transform: translateX(-50%);
+    transform: none;
     z-index: var(--zIndex-layerUI);
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: flex-start;
     gap: 0;
-    width: max-content;
-    max-width: calc(100vw - 24px);
+    width: fit-content;
+    max-width: calc(100% - 24px);
+    margin-inline: auto;
     padding: 4px;
+    overflow-x: auto;
     pointer-events: auto;
     background-color: var(--island-bg-color);
     box-shadow: var(--shadow-island);
@@ -369,7 +380,7 @@ body,
     bottom: auto;
     left: 0;
     right: auto;
-    width: min(18rem, calc(100vw - 2 * var(--editor-container-padding, 1rem)));
+    width: 18rem;
     z-index: 10;
   }
 }

@@ -89,18 +89,20 @@ export function App() {
   const [hoveredLink, setHoveredLink] = useState<LinkHighlight | null>(null);
   const [following, setFollowing] = useState(false);
 
-  const initialData = useMemo<Promise<ExcalidrawInitialDataState>>(async () => {
-    const files = await loadSceneFiles(SCENE_FILES);
-    return {
-      elements: buildScene().elements,
-      files,
+  // Paint the drawing immediately. Image files are not on the first view, so they load after.
+  const scene = useMemo(() => buildScene(), []);
+  const filesPromise = useMemo(() => loadSceneFiles(SCENE_FILES), []);
+  const initialData = useMemo<ExcalidrawInitialDataState>(
+    () => ({
+      elements: scene.elements,
       appState: {
         viewBackgroundColor: "#ffffff",
         currentItemFontFamily: 1,
         currentItemRoughness: 2,
       },
-    };
-  }, []);
+    }),
+    [scene],
+  );
 
   const panCanvas = useCallback((dx: number, dy: number) => {
     const api = apiRef.current;
@@ -164,21 +166,21 @@ export function App() {
   const handleApi = useCallback(
     (api: ExcalidrawImperativeAPI) => {
       apiRef.current = api;
-      initialData.then(async ({ elements }) => {
-        await waitForFonts(SCENE_FONTS, sceneText(elements ?? []));
+      void (async () => {
+        await waitForFonts(SCENE_FONTS, sceneText(scene.elements));
         // StrictMode mounts Excalidraw twice; only set up the instance that stuck.
         if (apiRef.current !== api) {
           return;
         }
-        const scene = buildScene();
-        api.updateScene({ elements: scene.elements, captureUpdate: CaptureUpdateAction.NEVER });
+        const fitted = buildScene();
+        api.updateScene({ elements: fitted.elements, captureUpdate: CaptureUpdateAction.NEVER });
         api.history.clear();
-        protectionRef.current = createProtection(scene.elements);
+        protectionRef.current = createProtection(fitted.elements);
         protectionRef.current.enable();
-        booksRef.current = scene.books;
-        setWebsites(scene.websites);
+        booksRef.current = fitted.books;
+        setWebsites(fitted.websites);
 
-        const focus = scene.elements.filter((element) => INITIAL_VIEW_IDS.has(element.id));
+        const focus = fitted.elements.filter((element) => INITIAL_VIEW_IDS.has(element.id));
         const mobile = isMobileViewport();
         api.updateScene({ appState: viewBelowToolbar(focus, api.getAppState(), mobile) });
         // Mobile: default to the hand tool so the canvas can be panned immediately.
@@ -187,9 +189,14 @@ export function App() {
         }
         setReady(true);
         stopPresenceRef.current ??= startPresence(api);
-      });
+
+        const files = await filesPromise;
+        if (apiRef.current === api) {
+          api.addFiles(Object.values(files));
+        }
+      })();
     },
-    [initialData],
+    [filesPromise, scene],
   );
 
   useEffect(

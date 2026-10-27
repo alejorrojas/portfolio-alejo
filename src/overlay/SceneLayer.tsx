@@ -1,4 +1,4 @@
-import { forwardRef, useLayoutEffect, useRef, type ReactNode } from "react";
+import { forwardRef, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 
 import type { WebsiteSlot } from "../scene";
 
@@ -33,15 +33,23 @@ const ScrollChain = ({ onPan, children }: { onPan: Props["onPan"]; children: Rea
       return;
     }
     let ignore = false;
+    const atRest = () => el.scrollLeft === CHAIN_REST && el.scrollTop === CHAIN_REST;
+    // iOS delivers the scroll event after scrollLeft returns. Keep ignoring until
+    // the park has landed, or that event is read as another pan and the tab crashes.
     const park = () => {
       ignore = true;
       el.scrollLeft = CHAIN_REST;
       el.scrollTop = CHAIN_REST;
-      ignore = false;
+      if (atRest()) {
+        ignore = false;
+      }
     };
     park();
     const onScroll = () => {
       if (ignore) {
+        if (atRest()) {
+          ignore = false;
+        }
         return;
       }
       const dx = el.scrollLeft - CHAIN_REST;
@@ -59,6 +67,65 @@ const ScrollChain = ({ onPan, children }: { onPan: Props["onPan"]; children: Rea
   return (
     <div ref={ref} className="scene-layer__chain">
       <div className="scene-layer__chain-gutter">{children}</div>
+    </div>
+  );
+};
+
+const PAN_EVENT = "portfolio-pan";
+
+/** Cross-origin pages stay unloaded until their window actually sits on screen. */
+const FramedSite = ({ site }: { site: WebsiteSlot }) => {
+  const frameRef = useRef<HTMLDivElement>(null);
+  const [live, setLive] = useState(false);
+
+  useEffect(() => {
+    const frame = frameRef.current;
+    if (!frame || site.screenshot) {
+      return;
+    }
+    const arm = () => {
+      const rect = frame.getBoundingClientRect();
+      const near =
+        rect.bottom > -160 &&
+        rect.right > -160 &&
+        rect.top < window.innerHeight + 160 &&
+        rect.left < window.innerWidth + 160;
+      if (!near) {
+        return;
+      }
+      setLive(true);
+      window.removeEventListener(PAN_EVENT, arm);
+    };
+    arm();
+    window.addEventListener(PAN_EVENT, arm);
+    return () => window.removeEventListener(PAN_EVENT, arm);
+  }, [site.screenshot]);
+
+  return (
+    <div
+      ref={frameRef}
+      className={site.screenshot ? "scene-layer__frame scene-layer__frame--scroll" : "scene-layer__frame"}
+    >
+      {site.screenshot ? (
+        // Not a link: open the site via the canvas title (`host ↗`) only.
+        <img src={site.screenshot} alt={new URL(site.url).host} loading="lazy" draggable={false} />
+      ) : (
+        live && (
+          <iframe
+            src={site.url}
+            title={new URL(site.url).host}
+            // No allow-popups / allow-top-navigation: browsing stays inside the frame;
+            // the canvas title link is what opens the real site.
+            sandbox="allow-scripts allow-same-origin allow-forms"
+            referrerPolicy="no-referrer"
+            style={{
+              width: site.width / SITE_SCALE,
+              height: site.height / SITE_SCALE,
+              transform: `scale(${SITE_SCALE})`,
+            }}
+          />
+        )
+      )}
     </div>
   );
 };
@@ -91,27 +158,7 @@ export const SceneLayer = forwardRef<HTMLDivElement, Props>(function SceneLayer(
             style={{ left: site.x, top: site.y, width: site.width, height: site.height }}
           >
             <ScrollChain onPan={onPan}>
-              <div className={site.screenshot ? "scene-layer__frame scene-layer__frame--scroll" : "scene-layer__frame"}>
-                {site.screenshot ? (
-                  // Not a link: open the site via the canvas title (`host ↗`) only.
-                  <img src={site.screenshot} alt={new URL(site.url).host} loading="lazy" draggable={false} />
-                ) : (
-                  <iframe
-                    src={site.url}
-                    title={new URL(site.url).host}
-                    loading="lazy"
-                    // No allow-popups / allow-top-navigation: browsing stays inside the frame;
-                    // the canvas title link is what opens the real site.
-                    sandbox="allow-scripts allow-same-origin allow-forms"
-                    referrerPolicy="no-referrer"
-                    style={{
-                      width: site.width / SITE_SCALE,
-                      height: site.height / SITE_SCALE,
-                      transform: `scale(${SITE_SCALE})`,
-                    }}
-                  />
-                )}
-              </div>
+              <FramedSite site={site} />
             </ScrollChain>
           </div>
         ))}
@@ -131,5 +178,6 @@ export const SceneLayer = forwardRef<HTMLDivElement, Props>(function SceneLayer(
 export const followViewport = (world: HTMLElement | null, scrollX: number, scrollY: number, zoom: number) => {
   if (world) {
     world.style.transform = `scale(${zoom}) translate(${scrollX}px, ${scrollY}px)`;
+    window.dispatchEvent(new Event(PAN_EVENT));
   }
 };
