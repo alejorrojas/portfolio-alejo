@@ -127,6 +127,38 @@ export function App() {
     }
   }, []);
 
+  /** Screen-space cover bounds for the open book card (follow zoom/pan). */
+  const bookScreenBounds = useCallback((slot: BookSlot) => {
+    const api = apiRef.current;
+    if (!api) {
+      return null;
+    }
+    const { scrollX, scrollY, zoom } = api.getAppState();
+    return {
+      slot,
+      left: (slot.x + scrollX) * zoom.value,
+      right: (slot.x + slot.width + scrollX) * zoom.value,
+      top: (slot.y + scrollY) * zoom.value,
+      bottom: (slot.y + slot.height + scrollY) * zoom.value,
+    };
+  }, []);
+
+  const syncHoveredBook = useCallback(() => {
+    const slug = hoveredSlugRef.current;
+    if (!slug) {
+      return;
+    }
+    const slot = booksRef.current.find((entry) => entry.book.slug === slug);
+    if (!slot) {
+      hideBook();
+      return;
+    }
+    const next = bookScreenBounds(slot);
+    if (next) {
+      setHoveredBook(next);
+    }
+  }, [bookScreenBounds, hideBook]);
+
   const handleApi = useCallback(
     (api: ExcalidrawImperativeAPI) => {
       apiRef.current = api;
@@ -184,9 +216,10 @@ export function App() {
   const handleScrollChange = useCallback(
     (scrollX: number, scrollY: number, zoom: { value: number }) => {
       followViewport(worldRef.current, scrollX, scrollY, zoom.value);
-      hideBook();
+      // Keep the review open while pinching/panning; just follow the cover.
+      syncHoveredBook();
     },
-    [hideBook],
+    [syncHoveredBook],
   );
 
   const handlePointerUpdate = useCallback(
@@ -213,23 +246,25 @@ export function App() {
         );
       }
 
-      const slot = button === "up" ? bookAt(booksRef.current, pointer) : undefined;
+      // During press/pinch, keep the open review so a zoom gesture doesn't dismiss it.
+      if (button === "down") {
+        return;
+      }
+
+      const slot = bookAt(booksRef.current, pointer);
       if (!slot) {
         hideBook();
         return;
       }
       if (hoveredSlugRef.current !== slot.book.slug) {
-        const { scrollX, scrollY, zoom } = api.getAppState();
-        hoveredSlugRef.current = slot.book.slug;
-        setHoveredBook({
-          slot,
-          left: (slot.x + scrollX) * zoom.value,
-          right: (slot.x + slot.width + scrollX) * zoom.value,
-          top: (slot.y + scrollY) * zoom.value,
-        });
+        const next = bookScreenBounds(slot);
+        if (next) {
+          hoveredSlugRef.current = slot.book.slug;
+          setHoveredBook(next);
+        }
       }
     },
-    [hideBook, links],
+    [bookScreenBounds, hideBook, links],
   );
 
   const handlePointerUp = useCallback(

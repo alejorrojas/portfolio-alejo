@@ -2,6 +2,8 @@ import type { BookSlot } from "../scene";
 
 const CARD_WIDTH = 240;
 const GAP = 12;
+/** Fallback height used before layout; real height is clamped with max-height in CSS. */
+const CARD_HEIGHT_GUESS = 280;
 
 export type HoveredBook = {
   slot: BookSlot;
@@ -9,18 +11,49 @@ export type HoveredBook = {
   left: number;
   right: number;
   top: number;
+  bottom: number;
 };
 
 const stars = (rating: number) => "★".repeat(rating) + "☆".repeat(5 - rating);
 
+const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(value, max));
+
+/** Keeps the review fully on screen; on narrow viewports prefers below/above the cover. */
+export const positionBookCard = (hovered: HoveredBook) => {
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const width = Math.min(CARD_WIDTH, vw - GAP * 2);
+  const height = Math.min(CARD_HEIGHT_GUESS, vh - GAP * 2);
+  const spaceRight = vw - hovered.right - GAP;
+  const spaceLeft = hovered.left - GAP;
+  const narrow = vw < 730 || (spaceRight < width && spaceLeft < width);
+
+  let left: number;
+  let top: number;
+
+  if (narrow) {
+    left = (hovered.left + hovered.right) / 2 - width / 2;
+    const below = hovered.bottom + GAP;
+    const above = hovered.top - GAP - height;
+    top = below + height <= vh - GAP ? below : above >= GAP ? above : GAP;
+  } else {
+    left = spaceRight >= width ? hovered.right + GAP : hovered.left - GAP - width;
+    top = hovered.top;
+  }
+
+  return {
+    left: clamp(left, GAP, vw - width - GAP),
+    top: clamp(top, GAP, vh - height - GAP),
+    width,
+  };
+};
+
 export function BookCard({ hovered }: { hovered: HoveredBook }) {
   const { book } = hovered.slot;
-  const fitsRight = hovered.right + GAP + CARD_WIDTH < window.innerWidth;
-  const left = fitsRight ? hovered.right + GAP : hovered.left - GAP - CARD_WIDTH;
-  const top = Math.max(GAP, Math.min(hovered.top, window.innerHeight - 240));
+  const { left, top, width } = positionBookCard(hovered);
 
   return (
-    <div className="book-card" style={{ left, top, width: CARD_WIDTH }} role="tooltip">
+    <div className="book-card" style={{ left, top, width }} role="tooltip">
       <div className="book-card__stars" aria-label={`${book.rating} out of 5`}>
         {stars(book.rating)}
       </div>

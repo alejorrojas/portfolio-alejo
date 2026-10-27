@@ -137,8 +137,12 @@ body,
   position: absolute;
   z-index: 3;
   box-sizing: border-box;
+  max-width: calc(100vw - 24px);
+  max-height: calc(100vh - 24px);
   padding: 10px 13px 10px;
-  pointer-events: none;
+  overflow: auto;
+  /* Allow scrolling a long review on touch; clicks still pass through empty canvas. */
+  pointer-events: auto;
   font-family: "Virgil", "Excalifont", "Comic Sans MS", cursive;
   color: var(--card-ink);
   background: var(--card-paper);
@@ -147,6 +151,7 @@ body,
   box-shadow: 3px 4px 0 var(--card-muted);
   transform: rotate(-1deg);
   animation: book-card-in 120ms ease-out;
+  -webkit-overflow-scrolling: touch;
 }
 
 .portfolio:has(.excalidraw.theme--dark) .book-card {
@@ -173,13 +178,19 @@ body,
 }
 
 .book-card__review {
-  display: -webkit-box;
   margin: 6px 0 0;
-  overflow: hidden;
   font-size: 12px;
   line-height: 1.35;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 7;
+}
+
+/* Desktop: keep the tooltip compact. Mobile needs the full review. */
+@media screen and (min-width: 731px) {
+  .book-card__review {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 7;
+  }
 }
 
 @keyframes book-card-in {
