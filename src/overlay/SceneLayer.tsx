@@ -93,15 +93,16 @@ export const SceneLayer = forwardRef<HTMLDivElement, Props>(function SceneLayer(
             <ScrollChain onPan={onPan}>
               <div className={site.screenshot ? "scene-layer__frame scene-layer__frame--scroll" : "scene-layer__frame"}>
                 {site.screenshot ? (
-                  <a href={site.url} target="_blank" rel="noreferrer">
-                    <img src={site.screenshot} alt={new URL(site.url).host} loading="lazy" draggable={false} />
-                  </a>
+                  // Not a link: open the site via the canvas title (`host ↗`) only.
+                  <img src={site.screenshot} alt={new URL(site.url).host} loading="lazy" draggable={false} />
                 ) : (
                   <iframe
                     src={site.url}
                     title={new URL(site.url).host}
                     loading="lazy"
-                    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                    // No allow-popups / allow-top-navigation: browsing stays inside the frame;
+                    // the canvas title link is what opens the real site.
+                    sandbox="allow-scripts allow-same-origin allow-forms"
                     referrerPolicy="no-referrer"
                     style={{
                       width: site.width / SITE_SCALE,
