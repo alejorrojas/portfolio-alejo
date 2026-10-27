@@ -135,7 +135,6 @@ body,
   overscroll-behavior: auto;
 }
 
-.scene-layer__frame--scroll a,
 .scene-layer__frame--scroll img {
   display: block;
   width: 100%;
