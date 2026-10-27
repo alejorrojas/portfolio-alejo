@@ -87,6 +87,18 @@ export function App() {
     };
   }, []);
 
+  const panCanvas = useCallback((dx: number, dy: number) => {
+    const api = apiRef.current;
+    if (!api || (dx === 0 && dy === 0)) {
+      return;
+    }
+    const { scrollX, scrollY } = api.getAppState();
+    api.updateScene({
+      appState: { scrollX: scrollX - dx, scrollY: scrollY - dy },
+      captureUpdate: CaptureUpdateAction.NEVER,
+    });
+  }, []);
+
   const syncLayer = useCallback(() => {
     const api = apiRef.current;
     if (api) {
@@ -233,7 +245,7 @@ export function App() {
       >
         <PortfolioMenu onReset={handleReset} />
       </Excalidraw>
-      <SceneLayer ref={worldRef} websites={websites} link={hoveredLink} />
+      <SceneLayer ref={worldRef} websites={websites} link={hoveredLink} onPan={panCanvas} />
       {hoveredBook && <BookCard hovered={hoveredBook} />}
     </div>
   );
