@@ -1,6 +1,9 @@
-import { forwardRef } from "react";
+import { forwardRef, useLayoutEffect, useRef, type ReactNode } from "react";
 
 import type { WebsiteSlot } from "../scene";
+
+/** Room on every side of the window, so a finished inner scroll can spill outward. */
+const CHAIN_REST = 4000;
 
 /** Websites render at this fraction of their real size, so they show the desktop layout. */
 const SITE_SCALE = 0.5;
@@ -8,7 +11,57 @@ const SITE_SCALE = 0.5;
 /** Hovered link bounds, in scene coordinates. */
 export type LinkHighlight = { kind: "text" | "image"; x: number; y: number; width: number; height: number };
 
-type Props = { websites: WebsiteSlot[]; link: LinkHighlight | null };
+type Props = {
+  websites: WebsiteSlot[];
+  link: LinkHighlight | null;
+  /** Scene pixels to move the canvas once a window has scrolled to its edge. */
+  onPan: (dx: number, dy: number) => void;
+};
+
+/**
+ * A parked scroller around the window. Inner content scrolls first. Whatever is left,
+ * horizontally or vertically, lands here and is handed to the canvas.
+ */
+const ScrollChain = ({ onPan, children }: { onPan: Props["onPan"]; children: ReactNode }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const onPanRef = useRef(onPan);
+  onPanRef.current = onPan;
+
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) {
+      return;
+    }
+    let ignore = false;
+    const park = () => {
+      ignore = true;
+      el.scrollLeft = CHAIN_REST;
+      el.scrollTop = CHAIN_REST;
+      ignore = false;
+    };
+    park();
+    const onScroll = () => {
+      if (ignore) {
+        return;
+      }
+      const dx = el.scrollLeft - CHAIN_REST;
+      const dy = el.scrollTop - CHAIN_REST;
+      if (dx === 0 && dy === 0) {
+        return;
+      }
+      park();
+      onPanRef.current(dx, dy);
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => el.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <div ref={ref} className="scene-layer__chain">
+      <div className="scene-layer__chain-gutter">{children}</div>
+    </div>
+  );
+};
 
 /** A wobbly pen underline, stretched to the link's width. */
 const Underline = ({ link }: { link: LinkHighlight }) => (
@@ -27,34 +80,38 @@ const Underline = ({ link }: { link: LinkHighlight }) => (
  * DOM layer that sits between Excalidraw's canvas and its UI. Its inner element
  * is moved with a single transform (see `followViewport`), so scrolling never re-renders React.
  */
-export const SceneLayer = forwardRef<HTMLDivElement, Props>(function SceneLayer({ websites, link }, ref) {
+export const SceneLayer = forwardRef<HTMLDivElement, Props>(function SceneLayer({ websites, link, onPan }, ref) {
   return (
     <div className="scene-layer">
       <div ref={ref} className="scene-layer__world">
         {websites.map((site) => (
           <div
             key={site.id}
-            className={site.screenshot ? "scene-layer__site scene-layer__site--screenshot" : "scene-layer__site"}
+            className="scene-layer__site"
             style={{ left: site.x, top: site.y, width: site.width, height: site.height }}
           >
-            {site.screenshot ? (
-              <a href={site.url} target="_blank" rel="noreferrer">
-                <img src={site.screenshot} alt={new URL(site.url).host} loading="lazy" draggable={false} />
-              </a>
-            ) : (
-              <iframe
-                src={site.url}
-                title={new URL(site.url).host}
-                loading="lazy"
-                sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
-                referrerPolicy="no-referrer"
-                style={{
-                  width: site.width / SITE_SCALE,
-                  height: site.height / SITE_SCALE,
-                  transform: `scale(${SITE_SCALE})`,
-                }}
-              />
-            )}
+            <ScrollChain onPan={onPan}>
+              <div className={site.screenshot ? "scene-layer__frame scene-layer__frame--scroll" : "scene-layer__frame"}>
+                {site.screenshot ? (
+                  <a href={site.url} target="_blank" rel="noreferrer">
+                    <img src={site.screenshot} alt={new URL(site.url).host} loading="lazy" draggable={false} />
+                  </a>
+                ) : (
+                  <iframe
+                    src={site.url}
+                    title={new URL(site.url).host}
+                    loading="lazy"
+                    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                    referrerPolicy="no-referrer"
+                    style={{
+                      width: site.width / SITE_SCALE,
+                      height: site.height / SITE_SCALE,
+                      transform: `scale(${SITE_SCALE})`,
+                    }}
+                  />
+                )}
+              </div>
+            </ScrollChain>
           </div>
         ))}
         {link?.kind === "text" && <Underline link={link} />}

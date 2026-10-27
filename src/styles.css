@@ -59,13 +59,41 @@ body,
   pointer-events: auto;
 }
 
-.scene-layer__site--screenshot {
-  overflow-y: auto;
+/* Parked away from its edges, so leftover inner scroll has room to land. */
+.scene-layer__chain {
+  position: absolute;
+  inset: 0;
+  overflow: auto;
   overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+
+.scene-layer__chain::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.scene-layer__chain-gutter {
+  box-sizing: content-box;
+  width: 100%;
+  height: 100%;
+  padding: 4000px;
+}
+
+.scene-layer__frame {
+  width: 100%;
+  height: 100%;
+  overflow: clip;
   background: #ffffff;
 }
 
-.scene-layer__site--screenshot img {
+.scene-layer__frame--scroll {
+  overflow: auto;
+  overscroll-behavior: auto;
+}
+
+.scene-layer__frame--scroll a,
+.scene-layer__frame--scroll img {
   display: block;
   width: 100%;
 }
@@ -109,8 +137,12 @@ body,
   position: absolute;
   z-index: 3;
   box-sizing: border-box;
+  max-width: calc(100vw - 24px);
+  max-height: calc(100vh - 24px);
   padding: 10px 13px 10px;
-  pointer-events: none;
+  overflow: auto;
+  /* Allow scrolling a long review on touch; clicks still pass through empty canvas. */
+  pointer-events: auto;
   font-family: "Virgil", "Excalifont", "Comic Sans MS", cursive;
   color: var(--card-ink);
   background: var(--card-paper);
@@ -119,6 +151,7 @@ body,
   box-shadow: 3px 4px 0 var(--card-muted);
   transform: rotate(-1deg);
   animation: book-card-in 120ms ease-out;
+  -webkit-overflow-scrolling: touch;
 }
 
 .portfolio:has(.excalidraw.theme--dark) .book-card {
@@ -145,13 +178,19 @@ body,
 }
 
 .book-card__review {
-  display: -webkit-box;
   margin: 6px 0 0;
-  overflow: hidden;
   font-size: 12px;
   line-height: 1.35;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 7;
+}
+
+/* Desktop: keep the tooltip compact. Mobile needs the full review. */
+@media screen and (min-width: 731px) {
+  .book-card__review {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 7;
+  }
 }
 
 @keyframes book-card-in {
@@ -177,4 +216,114 @@ body,
 .excalidraw .context-menu li[data-testid="unlockAllElements"],
 .excalidraw .context-menu li[data-testid="toggleElementLock"] {
   display: none;
+}
+
+/*
+ * Mobile layout (Excalidraw-style):
+ * - top-left: burger menu only
+ * - bottom: floating tools bar with the hand tool included
+ * Breakpoints match Excalidraw's isMobileBreakpoint.
+ */
+@media screen and (max-width: 730px), screen and (max-height: 500px) and (max-width: 1000px) {
+  /* Floating tools island at the bottom center. */
+  .excalidraw .App-toolbar-container {
+    position: fixed;
+    left: 50%;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    transform: translateX(-50%);
+    z-index: var(--zIndex-layerUI);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0;
+    width: max-content;
+    max-width: calc(100vw - 24px);
+    padding: 4px;
+    pointer-events: auto;
+    background-color: var(--island-bg-color);
+    box-shadow: var(--shadow-island);
+    border-radius: var(--border-radius-lg);
+  }
+
+  .excalidraw .App-toolbar--mobile {
+    width: auto;
+    max-width: none;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  /*
+   * Fold the hand tool into the bottom bar.
+   * (Chromium does not support position:contents, so restyle the misc strip.)
+   */
+  .excalidraw .mobile-misc-tools-container {
+    position: static !important;
+    top: auto !important;
+    right: auto !important;
+    left: auto !important;
+    bottom: auto !important;
+    order: -1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: none !important;
+    border-radius: 0;
+    overflow: visible;
+    background: transparent !important;
+  }
+
+  /* Hand only — drop pen / lock / sidebar from the mobile chrome. */
+  .excalidraw .mobile-misc-tools-container .default-sidebar-trigger,
+  .excalidraw .mobile-misc-tools-container .ToolIcon__penMode,
+  .excalidraw .mobile-misc-tools-container .ToolIcon__lock {
+    display: none !important;
+  }
+
+  /*
+   * Bottom bar becomes the top-left burger only.
+   * (MainMenu is the first child of App-toolbar-content.)
+   */
+  .excalidraw .App-bottom-bar {
+    position: fixed !important;
+    inset: auto;
+    top: var(--editor-container-padding);
+    left: var(--editor-container-padding);
+    right: auto;
+    bottom: auto;
+    width: auto;
+    height: auto;
+    margin: 0 !important;
+    padding: 0;
+    align-items: flex-start;
+    z-index: var(--zIndex-layerUI);
+  }
+
+  .excalidraw .App-bottom-bar > .Island {
+    width: auto;
+    min-width: 0;
+    max-width: none;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .excalidraw .App-bottom-bar .App-toolbar {
+    width: auto;
+  }
+
+  .excalidraw .App-toolbar-content {
+    padding: 0;
+    justify-content: flex-start;
+  }
+
+  .excalidraw .App-toolbar-content > :not(:first-child) {
+    display: none !important;
+  }
+
+  /* Menu opens below the top-left trigger, not above a bottom bar. */
+  .excalidraw .App-toolbar-content .dropdown-menu--mobile {
+    top: calc(100% + 8px);
+    bottom: auto;
+    left: 0;
+    right: auto;
+  }
 }

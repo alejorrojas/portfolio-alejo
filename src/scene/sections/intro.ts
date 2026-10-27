@@ -31,7 +31,7 @@ export const intro = (): Skeleton[] => {
     text(x + 20, 177, "90s startup nostalgist", { size: 24, color: INK.gray }),
 
     ...note(1065, -448, 572, 100, { id: "intro-hint", color: INK.black, angle: -1.4 }),
-    text(1095, -426, "psst... the toolbar up there is all yours.\ndraw, write, scribble anywhere.", { size: 21, angle: 0.6 }),
+    text(1095, -426, "psst... the toolbar is all yours.\ndraw, write, scribble anywhere.", { size: 21, angle: 0.6 }),
     arrow(1038, -404, [[0, 0], [-14, 2], [-19, -15], [-44, -32], [-74, -48]], {
       id: "intro-hint-arrow",
       color: INK.blue,
