@@ -6,35 +6,41 @@ import { browserWindow } from "./window";
 import type { WebsiteSlot } from "./window";
 
 const ROW = 640;
-const YC_ORANGE = "#fb651e";
 const SITE = { width: 760, height: 470 };
+/** Sits beside the Rebill wordmark. Taller than that logo, on purpose. */
+const YC_SIZE = 104;
 
 const doodles: Record<string, (x: number, y: number) => Skeleton[]> = {
-  SimpleBLE: (x, y) => [
-    line(x, y + 18, [[0, 0], [34, 34], [17, 52], [17, -12], [34, 6], [0, 40]], { color: INK.blue, strokeWidth: 3, shake: 1.5 }),
-  ],
   "Rebill (YC W22)": (x, y) => [
     rect(x, y, 120, 76, { color: INK.black, fill: "#ffffff", fillStyle: "solid", rounded: true }),
     text(x + 17, y + 15, "**********", { size: 16, color: INK.gray, angle: 0 }),
     text(x + 14, y + 44, "**** 4242", { size: 16, color: INK.gray, angle: 0 }),
-    image(x + 150, y + 10, 56, 56, "logo-yc"),
-    text(x + 221, y + 24, "← YC W22!!", { size: 20, color: YC_ORANGE }),
   ],
 };
 
 const job = (item: Job, x: number, y: number, index: number) => {
   const doodle = doodles[item.company];
+  const yc = item.company === "Rebill (YC W22)";
+  const head = yc ? YC_SIZE : item.logo.height;
   const window = item.site
-    ? browserWindow(`site-${index}`, x + 760, y - 30, SITE.width, SITE.height, item.site, item.screenshot)
+    ? browserWindow(`site-${index}`, x + 760, y - 30, SITE.width, SITE.height, item.site, {
+        screenshot: item.screenshot,
+        preview: item.preview,
+      })
     : null;
   const elements: Skeleton[] = [
-    image(x, y, item.logo.width, item.logo.height, item.logo.fileId),
-    text(x, y + item.logo.height + 24, item.role, { size: 34 }),
-    text(x, y + item.logo.height + 72, `${item.company} · ${item.period}`, { size: 20, color: INK.gray }),
-    text(x, y + item.logo.height + 120, item.bullets.map((b) => (b.startsWith("(") ? `   ${b}` : `· ${b}`)).join("\n"), {
+    image(x, yc ? y + (YC_SIZE - item.logo.height) / 2 : y, item.logo.width, item.logo.height, item.logo.fileId),
+    ...(yc
+      ? [
+          image(x + item.logo.width + 44.81, y + 10.88, 80.77, 80.77, "logo-yc", { angle: -3.12 }),
+        ]
+      : []),
+    text(x, y + head + 24, item.role, { size: 34 }),
+    text(x, y + head + 72, `${item.company} · ${item.period}`, { size: 20, color: INK.gray }),
+    text(x, y + head + 120, item.bullets.map((b) => (b.startsWith("(") ? `   ${b}` : `· ${b}`)).join("\n"), {
       size: 22,
     }),
-    ...(doodle ? doodle(x + 20, y + item.logo.height + 140 + item.bullets.length * 34) : []),
+    ...(doodle ? doodle(x + 20, y + head + 140 + item.bullets.length * 34) : []),
     ...(window?.elements ?? []),
   ];
   return { elements, website: window?.slot ?? null };

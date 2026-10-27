@@ -12,6 +12,7 @@ import type {
   OrderedExcalidrawElement,
 } from "@excalidraw/excalidraw/element/types";
 
+import { createEditRecorder, EDIT_MODE } from "./edit-mode";
 import { waitForFonts } from "./fonts";
 import { createLinks } from "./links";
 import { PortfolioMenu } from "./menu";
@@ -81,6 +82,7 @@ export function App() {
   const booksRef = useRef<BookSlot[]>([]);
   const hoveredSlugRef = useRef<string | null>(null);
   const stopPresenceRef = useRef<(() => void) | null>(null);
+  const recordEditsRef = useRef<ReturnType<typeof createEditRecorder> | null>(null);
   const links = useMemo(createLinks, []);
   const [ready, setReady] = useState(false);
   const [websites, setWebsites] = useState<WebsiteSlot[]>([]);
@@ -173,22 +175,34 @@ export function App() {
           return;
         }
         const fitted = buildScene();
-        api.updateScene({ elements: fitted.elements, captureUpdate: CaptureUpdateAction.NEVER });
+        if (EDIT_MODE) {
+          api.updateScene({
+            elements: fitted.elements.map((element) => ({ ...element, locked: false })),
+            captureUpdate: CaptureUpdateAction.NEVER,
+          });
+          recordEditsRef.current = createEditRecorder(fitted.elements);
+        } else {
+          api.updateScene({ elements: fitted.elements, captureUpdate: CaptureUpdateAction.NEVER });
+          protectionRef.current = createProtection(fitted.elements);
+          protectionRef.current.enable();
+        }
         api.history.clear();
-        protectionRef.current = createProtection(fitted.elements);
-        protectionRef.current.enable();
         booksRef.current = fitted.books;
         setWebsites(fitted.websites);
 
-        const focus = fitted.elements.filter((element) => INITIAL_VIEW_IDS.has(element.id));
+        const focus = fitted.elements.filter((element) =>
+          EDIT_MODE ? element.id === "reading-challenge-frame" : INITIAL_VIEW_IDS.has(element.id),
+        );
         const mobile = isMobileViewport();
         api.updateScene({ appState: viewBelowToolbar(focus, api.getAppState(), mobile) });
         // Mobile: default to the hand tool so the canvas can be panned immediately.
-        if (mobile) {
+        if (mobile && !EDIT_MODE) {
           api.setActiveTool({ type: "hand" });
         }
         setReady(true);
-        stopPresenceRef.current ??= startPresence(api);
+        if (!EDIT_MODE) {
+          stopPresenceRef.current ??= startPresence(api);
+        }
 
         const files = await filesPromise;
         if (apiRef.current === api) {
@@ -218,6 +232,7 @@ export function App() {
       if (apiRef.current) {
         protectionRef.current?.enforce(apiRef.current, elements, appState);
       }
+      recordEditsRef.current?.(elements);
       const nextFollowing = appState.userToFollow?.socketId === PRESENCE.socketId;
       setFollowing((prev) => (prev === nextFollowing ? prev : nextFollowing));
     },
@@ -280,7 +295,7 @@ export function App() {
 
   const handlePointerUp = useCallback(
     (tool: AppState["activeTool"], state: PointerDownState) => {
-      if (apiRef.current) {
+      if (apiRef.current && !EDIT_MODE) {
         links.click(apiRef.current, tool, state);
       }
     },

@@ -11,6 +11,8 @@ export type WebsiteSlot = {
   height: number;
   /** Full-page screenshot to scroll instead of framing `url`. */
   screenshot?: string;
+  /** First screen of the landing, shown until hover loads `url`. */
+  preview?: string;
 };
 
 const BAR = 52;
@@ -27,7 +29,7 @@ export const browserWindow = (
   width: number,
   height: number,
   url: string,
-  screenshot?: string,
+  opts: { screenshot?: string; preview?: string } = {},
 ): { elements: Skeleton[]; slot: WebsiteSlot } => {
   const host = new URL(url).host.replace(/^www\./, "");
   const elements: Skeleton[] = [
@@ -39,6 +41,8 @@ export const browserWindow = (
     text(x + 120, y + 10, `${host} ↗`, { size: 20, color: INK.gray, angle: 0, link: url }),
   ];
 
-  elements.push(text(x + PAD + 30, y + BAR + 30, `loading ${host}...`, { size: 20, color: INK.gray }));
-  return { elements, slot: { id, url, x: x + PAD, y: y + BAR, width, height, screenshot } };
+  return {
+    elements,
+    slot: { id, url, x: x + PAD, y: y + BAR, width, height, screenshot: opts.screenshot, preview: opts.preview },
+  };
 };

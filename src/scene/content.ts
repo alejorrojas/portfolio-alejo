@@ -14,6 +14,8 @@ export type Job = {
   site?: string;
   /** Full-page screenshot scrolled inside the window, for sites that refuse to be framed. */
   screenshot?: string;
+  /** First screen of the landing, shown until the live site is opened. */
+  preview?: string;
   logo: { fileId: string; width: number; height: number };
   bullets: string[];
 };
@@ -40,6 +42,7 @@ export const JOBS: Job[] = [
     role: "Frontend Developer",
     period: "Sep → Oct 2025",
     site: "https://www.thenetwork.com",
+    preview: "/images/sites/thenetwork.webp",
     logo: { fileId: "logo-the-network", width: 70, height: 70 },
     bullets: [
       "built Signa, The Network's people search engine",
@@ -54,6 +57,7 @@ export const JOBS: Job[] = [
     role: "Software Engineer",
     period: "Sep 2023 → Jul 2025",
     site: "https://www.rebill.com",
+    preview: "/images/sites/rebill.webp",
     logo: { fileId: "logo-rebill", width: 190, height: 41 },
     bullets: [
       "led architecture & launch of the Rebill SDK",
