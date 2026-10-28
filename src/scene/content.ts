@@ -106,9 +106,10 @@ export const TALKS: Talk[] = [
   },
   {
     photos: ["v0-1", "v0-2"],
-    caption: "v0 meetup",
+    caption: "v0 meetup ↗",
     logo: "v0",
     sub: "300+ people talking AI & cybersecurity, closed with empanadas",
+    link: "https://lnkd.in/p/d_EJHiJ9",
   },
   {
     photos: ["supabase-1", "supabase-2"],
