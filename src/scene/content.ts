@@ -229,7 +229,7 @@ export const FUN: SideProject[] = [
     url: "https://padel.alejorrojas.com/",
     preview: "/images/sites/padel.webp",
     title: "birthday padel cup",
-    body: "For my birthday I got 24 friends\ntogether for a padel tournament.\nThe software sets the teams, builds\nthe fixture, shows live scores on\nevery match, and makes the next rounds\nfrom those results, with votes for\nplayer of the night and breakthrough\nplayer. The photos got extra care\nbecause there were a lot of them, so\nthat section had to load fast.",
+    body: "For my birthday I got 24 friends\ntogether for a padel tournament.\nThe app sets the teams, builds\nthe fixture, shows live scores on\nevery match, and makes the next rounds\nfrom those results, with votes for\nplayer of the night and breakthrough\nplayer. The photos got extra care\nbecause there were a lot of them, so\nthat section had to load fast.",
   },
   {
     id: "borges",
