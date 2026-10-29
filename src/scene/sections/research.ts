@@ -23,10 +23,15 @@ export const research = (x: number, y: number) => {
     image(x, y + 150, 90, 90, "logo-nlasmith"),
     text(x + 120, y + 150, "NLASmith", { size: 48, color: INK.black, link: PAPER_URL }),
     text(x + 120, y + 216, "a framework for experimenting with\nNatural Language Autoencoders.", { size: 24 }),
-    text(x, y + 332, "paper @ a university congress, w/ Juan Ignacio Rodriguez Leiva (UTN FRRe)", {
-      size: 18,
-      color: INK.gray,
-    }),
+    text(
+      x,
+      y + 332,
+      "You choose which tokens to read. Neuronpedia turns those activations into words.\nAn LLM judge scores them with your rubric, so each run can be repeated and compared.\npaper @ a university congress, w/ Juan Ignacio Rodriguez Leiva (UTN FRRe)",
+      {
+        size: 18,
+        color: INK.gray,
+      },
+    ),
 
     ...boxes.map((box, i) =>
       rect(box.x, boxY + (i % 2) * 18, boxWidth, 86, {
