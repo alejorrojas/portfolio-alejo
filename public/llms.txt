@@ -1,0 +1,127 @@
+# Alejo Rojas
+
+> Alejo Rojas is a software engineer from Chaco, Argentina, and a Systems Engineering student at UTN FRRe (2022 to 2027). His site, https://alejorrojas.com, is one hand-drawn whiteboard titled "My own world". This file is the full text of that page. There are no other pages and no separate markdown versions.
+
+The whiteboard is meant to be doodled on. A note on the page says the toolbar is the visitor's: draw, write, and scribble anywhere. Embedded sites open on hover. He calls himself a 90s startup nostalgist.
+
+Reach him at hello@alejorrojas.com, https://x.com/alejorrojass, https://www.linkedin.com/in/alejorrojas/, https://github.com/alejorrojas, and https://www.goodreads.com/user/show/143446151.
+
+Certifications listed on the page: C1 Advanced, AWS Cloud Foundations, and Agent Observability & Evaluations.
+
+**Work**
+
+SimpleBLE, Software Engineer, Dec 2025 to now, remote (US). https://simpleble.org. Extending SimpleBLE's C++ Bluetooth library so it is easier to use on every platform. Language bindings for React Native and other ecosystems. Reliable, fast, and consistent across platforms and runtimes. Grew library usage by unlocking MCPs and agentic skills. Brought in new deals with React Native partners.
+
+The Network, Frontend Developer, Sep to Oct 2025. https://www.thenetwork.com. Built Signa, The Network's people search engine, used by half of Tier 1 VCs and top AI labs. Shipped tracking lists, daily signals, and enrichment. Turned AI ranked founder data into a clean, fast UI. Pixel perfect product, built side by side with design.
+
+Rebill (YC W22), Software Engineer, Sep 2023 to Jul 2025. https://www.rebill.com. Led architecture and launch of the Rebill SDK, a one click checkout doing hundreds of transactions a day. PCI compliant AWS infra with automated deploys (ECS, WAF, VPCs, API Gateways, load balancers). Fast Next.js platform, tuned with SSR, SSG, and CSR. Docs and dev guides that cut integration time.
+
+Digital House, Content Lead and Frontend Dev, Jan 2022 to Sep 2023. Led the Certified Tech Developer curriculum with Globant and Mercado Libre. Cut class and project development time by 40%. 80% success rate on long term learning plans. React and Next.js sites with a 98 SEO score. Ran technical interviews.
+
+**Research**
+
+NLASmith is a framework for experimenting with Natural Language Autoencoders. https://nlasmith.com and the paper at https://nlasmith.com/paper.
+
+In his words: "I find the interpretability area of study one of the most important fields of research in the modern era. In Anthropic's words, 'It's hard to reason about the safety of neural networks without understanding what happens inside them,' so contributing to this area of knowledge feels like a noble pursuit to me."
+
+"This work is a small contribution on an interpretability mechanism proposed by Anthropic called NLAs." The name Anthropic in that sentence links to https://transformer-circuits.pub/2026/nla.
+
+"Natural Language Autoencoders (NLAs) convert an activation into natural language text we can read directly. Our proposal takes that mechanism and proposes a platform to directly run experiments with NLAs. You choose the tokens to read from activations. Neuronpedia writes them out. An LLM judge scores them with your rubric and you get your results based on metrics."
+
+The experiment pipeline drawn on the page is Dataset, Token policy, NLA (Neuronpedia), LLM judge, Metrics. The caption under it: "one off NLA explorations → reproducible, comparable experiments".
+
+"paper @ a university congress, w/ Juan Ignacio Rodriguez Leiva (UTN FRRe)".
+
+**Code for fun**
+
+Tabu, https://whatsappblur.com/. "We all have that moment. WhatsApp open on a computer, in public. You feel exposed. Anyone behind you could read along. Tabu blurs the chats until you are the one looking."
+
+Birthday Padel Cup, https://padel.alejorrojas.com/. "For my birthday I got 24 friends together for a padel tournament. The app sets the teams, builds the fixture, shows live scores on every match, and makes the next rounds from those results, with votes for player of the night and breakthrough player. The photos got extra care because there were a lot of them, so that section had to load fast."
+
+For Borges, https://jorgeluisborges.org/. "I love literature. I find it one of the purest arts. Borges got me into reading with 'The Aleph,' and I have been reading him since I was a kid. What I found was not a list of books to admire. It was a way of looking. A page could hold a city, a century, a belief I had never lived, and still be exact."
+
+**Talks**
+
+Campus Party '22, a Solidity workshop for 100+ people. https://lnkd.in/p/ddjmiTJK
+
+Cursor meetup. Brought together 100+ people from the local tech community for a meetup with Juan Rezzio (SWE and QA at Cursor) to learn how the team ensures quality across their products. https://www.linkedin.com/feed/update/urn:li:activity:7407063689159225344/
+
+v0 meetup. 300+ people talking AI and cybersecurity, closed with empanadas. https://lnkd.in/p/d_EJHiJ9
+
+Supabase meetup. Hosted a meetup with 120+ attendees featuring Hiberus' Head of AI, exploring how AI is changing the way we build software. https://x.com/alejorrojass/status/1946032516680307013
+
+**Open source**
+
+simpleble/simpleble (1.1k stars), a cross platform Bluetooth library. Pull requests called out on the page: the new docs site (https://github.com/simpleble/simpleble/pull/439), MCP server + Agent Skills (https://github.com/simpleble/simpleble/pull/443), step by step getting started guide (https://github.com/simpleble/simpleble/pull/456), fix scan stop on Windows (https://github.com/simpleble/simpleble/pull/449), plus 13 more (https://github.com/simpleble/simpleble/pulls?q=is%3Apr+author%3Aalejorrojas).
+
+basementstudio/xmcp (1.3k stars), a framework for building MCP servers. Pull request: dynamic port allocation for HTTP transport (https://github.com/basementstudio/xmcp/pull/97).
+
+reactjs/react.dev (11.8k stars), the React docs. Pull request: fix Server Components link text (https://github.com/reactjs/react.dev/pull/8026).
+
+microsoft/react-native-macos (4.4k stars), React Native for macOS. Pull request: fix Metro bundler startup docs (https://github.com/microsoft/react-native-macos/pull/2795).
+
+The page says everything else lives on GitHub.
+
+**Books read in 2026**
+
+The shelf is titled "my year in books". Hovering a cover shows his review. A live count of days left in 2026 sits on the reading challenge card. The full shelf is on Goodreads.
+
+He also placed a translation of a talk by Tomás Rebord, titled "About literature from Tomás Rebord":
+
+"Literature is the most intimate form of the arts [...] you are there, often, with someone who is no longer here, who said something to you. And sometimes that something was for you.
+
+If you have ever cried with a book, you are crying with a man who maybe lived 500 years ago. And yet he could be your friend. I believe literature is the most intimate of the arts. Soul to soul. Not even with the hindrance of the flesh.
+
+When someone is lost within themselves, that is when they read the most poetry. Poetry is an odd genre. The most powerful lines have been written for the people who need them most. Reading things we no longer practice, because they are not immediate, because they are not fast, because you cannot live them. A good poem saves your life. A beautiful verse, given at the precise moment, justifies your existing."
+
+Books on the shelf, with his rating and review when he wrote one:
+
+- La metamorfosis, Franz Kafka, 4. https://www.goodreads.com/review/show/9024115608
+- El volumen del tiempo III, Solvej Balle, 4. https://www.goodreads.com/review/show/9001025789
+- El volumen del tiempo II, Solvej Balle, 4. "Compared to how striking and introspective the first one was, I'd give it a 3.5. Still a really good continuation. My biggest gripe with book one was that the protagonist never acted on her free will. Here that side finally gets developed, along with family, relationships and loneliness. And it nails something the first one didn't: the ending leaves you wanting the next one." https://www.goodreads.com/review/show/8985494597
+- El volumen del tiempo I, Solvej Balle, 4. "4.5 stars. Found it by accident at a café while killing time before a flight. Read for 3 hours straight and bought it before leaving. One of my best buys this year. The premise is well known (someone stuck in a day that keeps repeating), but the angle is different: loneliness, love, distance and free will. I'll admit this theme fascinates me, so I might be biased. Stealing a line from another review: 'This is absolutely a vibes > plot read.' Also, the physical book is sooo pretty." https://www.goodreads.com/review/show/8980697098
+- The Stranger, Albert Camus, 3. "Amazing and very short. If you ever saw the cover and thought 'I have to read this someday', go for it. It says a lot in very little. I'd recommend watching some videos on Camus' philosophy of the absurd to tie it all together, not just as a novel but as philosophy told through fiction. Rate 3.5." https://www.goodreads.com/review/show/7516587494
+- 13,99 euros, Frédéric Beigbeder, 2. https://www.goodreads.com/review/show/8706191537
+- El jugador, Fyodor Dostoevsky, 2. "Felt long and only picks up in the final stretch. The highlight is how it captures the psychology of a gambling addict, even more knowing Dostoevsky was going through the same thing while writing it. A line ChatGPT gave me while talking about it: 'it reads more like a confession than fiction'." https://www.goodreads.com/review/show/8300330707
+- Pequeño tratado sobre la amistad, Joana D'Alessio, 4. "Rate: 3.5. A very light read. Walking around Buenos Aires with friends brought back a lot of memories. I liked how flowers are part of the story, mixed with history and culture about where they come from. Didn't connect much with the family part, but it's just an epilogue. I'd buy the physical copy just for the illustrations!" https://www.goodreads.com/review/show/8649625066
+- Sunrise on the Reaping, Suzanne Collins, 4. https://www.goodreads.com/review/show/8523048588
+- Noches blancas, Fyodor Dostoevsky, 4. "My first Dostoevsky. A sweet and nostalgic story at the same time. I need more time to write a proper review, but it's a 4/5 without a doubt. Stolen from a review I loved: 'It was a wonderful night, such a night as is only possible when we are young, dear reader.'" https://www.goodreads.com/review/show/8562974920
+- Las cosas que perdimos en el fuego, Mariana Enriquez, 3. "Need time to write the review. Solid 3.5." https://www.goodreads.com/review/show/7574149051
+- Think Punk, Ecequiel Barricart, 2. "Didn't really connect with it." https://www.goodreads.com/review/show/7691302229
+- Catching Fire, Suzanne Collins, 3. https://www.goodreads.com/review/show/8496277874
+- Just Kids, Patti Smith, 5. "One of the most beautiful love stories I've ever read. Not just romantic love, but love for art, creation and expression. Their life of having almost nothing, yet somehow enough to keep making art. Told with a beauty only Patti could pull off. I loved looking up the photos, songs and short films they made while I was reading. Highly recommended. The ending crushed me." https://www.goodreads.com/review/show/7852158500
+
+## Site
+
+- [alejorrojas.com](https://alejorrojas.com): The hand-drawn portfolio. This file is its text.
+
+## Work
+
+- [SimpleBLE](https://simpleble.org): Current job. C++ Bluetooth library and its bindings.
+- [The Network](https://www.thenetwork.com): Signa, the people search engine he built the UI for.
+- [Rebill](https://www.rebill.com): YC W22 payments company. He led the SDK and the checkout infra.
+
+## Projects
+
+- [Tabu](https://whatsappblur.com/): Blurs WhatsApp chats on a computer until you are the one looking.
+- [Birthday Padel Cup](https://padel.alejorrojas.com/): Tournament app for a birthday padel night: teams, fixture, live scores, next rounds, votes, photos.
+- [For Borges](https://jorgeluisborges.org/): A site for Jorge Luis Borges.
+- [NLASmith](https://nlasmith.com): Framework for running repeatable experiments on Natural Language Autoencoders.
+- [NLASmith paper](https://nlasmith.com/paper): University congress paper with Juan Ignacio Rodriguez Leiva (UTN FRRe).
+- [Natural Language Autoencoders](https://transformer-circuits.pub/2026/nla): Anthropic's paper on NLAs, the mechanism NLASmith experiments with.
+
+## Talks
+
+- [Campus Party '22](https://lnkd.in/p/ddjmiTJK): Solidity workshop, 100+ people.
+- [Cursor meetup](https://www.linkedin.com/feed/update/urn:li:activity:7407063689159225344/): 100+ people, with Juan Rezzio from Cursor.
+- [v0 meetup](https://lnkd.in/p/d_EJHiJ9): 300+ people on AI and cybersecurity.
+- [Supabase meetup](https://x.com/alejorrojass/status/1946032516680307013): 120+ people, with Hiberus' Head of AI.
+
+## Optional
+
+- [GitHub](https://github.com/alejorrojas): Code and the rest of the open source work.
+- [SimpleBLE pull requests](https://github.com/simpleble/simpleble/pulls?q=is%3Apr+author%3Aalejorrojas): Every pull request he opened on SimpleBLE.
+- [Goodreads](https://www.goodreads.com/user/show/143446151): The full bookshelf. The 2026 shelf on the site is a subset.
+- [LinkedIn](https://www.linkedin.com/in/alejorrojas/): Profile.
+- [X](https://x.com/alejorrojass): Profile.
+- [Email](mailto:hello@alejorrojas.com): hello@alejorrojas.com.

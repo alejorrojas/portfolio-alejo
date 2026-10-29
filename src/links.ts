@@ -33,6 +33,8 @@ const linkAt = (api: ExcalidrawImperativeAPI, point: Point) => {
 const open = (href: string) => {
   if (href.startsWith("mailto:")) {
     window.location.href = href;
+  } else if (href.startsWith("/") && !href.startsWith("//")) {
+    window.location.assign(href);
   } else {
     window.open(href, "_blank", "noopener,noreferrer");
   }
