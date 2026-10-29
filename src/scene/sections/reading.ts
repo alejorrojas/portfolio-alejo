@@ -116,6 +116,78 @@ const daysLeft = (x: number, y: number): Skeleton[] => {
   ];
 };
 
+const REBORD_TITLE = "About literature from Tomás Rebord";
+const REBORD_BODY = `Literature is the most intimate form of the arts [...] you are
+there, often, with someone who is no longer here, who said
+something to you. And sometimes that something was for you.
+
+If you have ever cried with a book, you are crying with a man
+who maybe lived 500 years ago. And yet he could be your
+friend. I believe literature is the most intimate of the arts.
+Soul to soul. Not even with the hindrance of the flesh.
+
+When someone is lost within themselves, that is when they read
+the most poetry. Poetry is an odd genre. The most powerful
+lines have been written for the people who need them most.
+Reading things we no longer practice, because they are not
+immediate, because they are not fast, because you cannot live
+them. A good poem saves your life. A beautiful verse, given at
+the precise moment, justifies your existing.`;
+
+/**
+ * Placed by hand in edit mode, to the left of the shelf.
+ * Offsets are from `reading(x, y)`, which is `(-2369, -400)`.
+ * Raw skeletons: `text()` would wobble the position and swap the font.
+ */
+const rebord = (x: number, y: number): Skeleton[] => [
+  {
+    type: "text",
+    id: "fun-rebord-title",
+    x: x - 668.5038558559395,
+    y: y + 789.1802368779376,
+    width: 198.26926547299058,
+    height: 13.253294408269928,
+    text: REBORD_TITLE,
+    originalText: REBORD_TITLE,
+    fontSize: 10.602635526615941,
+    fontFamily: 8,
+    textAlign: "left",
+    verticalAlign: "top",
+    autoResize: false,
+    angle: 6.195814090183595,
+    strokeColor: "#ced4da",
+    backgroundColor: "transparent",
+    fillStyle: "hachure",
+    strokeWidth: 2,
+    strokeStyle: "solid",
+    roughness: 2,
+    opacity: 100,
+  },
+  {
+    type: "text",
+    id: "fun-rebord",
+    x: x - 656.5707105920337,
+    y: y + 800.5938091356204,
+    width: 334.56347421772017,
+    height: 194.38165132129228,
+    text: REBORD_BODY,
+    originalText: REBORD_BODY,
+    fontSize: 9.719082566064614,
+    fontFamily: 8,
+    textAlign: "left",
+    verticalAlign: "top",
+    autoResize: false,
+    angle: 6.187087443923624,
+    strokeColor: "#ced4da",
+    backgroundColor: "transparent",
+    fillStyle: "hachure",
+    strokeWidth: 2,
+    strokeStyle: "solid",
+    roughness: 2,
+    opacity: 100,
+  },
+];
+
 export const reading = (x: number, y: number) => {
   const books = shelf(x + 60, y + 470);
   const elements: Skeleton[] = [
@@ -133,6 +205,7 @@ export const reading = (x: number, y: number) => {
     tape(x + 20, y + 136, -20),
     tape(x + CHALLENGE.width - 20, y + 140, 18),
     text(x + 1150, y + 400, "hover a book", { size: 24, color: INK.blue }),
+    ...rebord(x, y),
     ...books.elements,
     text(x + 340, y + 1060, "→ the full shelf lives on goodreads", { size: 24, color: INK.blue, link: GOODREADS }),
   ];
