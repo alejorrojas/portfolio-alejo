@@ -191,6 +191,10 @@ body,
   background: #ffffff;
 }
 
+.portfolio--lost .scene-layer__underline {
+  stroke: #1e1e1e;
+}
+
 .scene-layer__underline {
   position: absolute;
   height: 10px;

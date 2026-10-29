@@ -24,7 +24,8 @@ import { followViewport, SceneLayer } from "./overlay/SceneLayer";
 import type { LinkHighlight } from "./overlay/SceneLayer";
 import { PRESENCE, startPresence } from "./presence";
 import { createProtection } from "./protection";
-import { buildScene, INITIAL_VIEW_IDS, SCENE_FILES, SCENE_FONTS } from "./scene";
+import { buildNotFound, buildScene, INITIAL_VIEW_IDS, SCENE_FILES, SCENE_FONTS } from "./scene";
+import { HOME_BUTTON_FILL, HOME_BUTTON_HOVER, HOME_BUTTON_ID } from "./scene/not-found";
 import type { BookSlot, WebsiteSlot } from "./scene";
 import { loadSceneFiles } from "./scene/files";
 
@@ -89,11 +90,14 @@ export function App() {
   const [websites, setWebsites] = useState<WebsiteSlot[]>([]);
   const [hoveredBook, setHoveredBook] = useState<HoveredBook | null>(null);
   const hoveredLinkIdRef = useRef<string | null>(null);
+  const homeButtonHoverRef = useRef(false);
   const [hoveredLink, setHoveredLink] = useState<LinkHighlight | null>(null);
   const [following, setFollowing] = useState(false);
 
+  // Any path other than the board itself is the missing page. Static files never reach the app.
+  const missing = window.location.pathname !== "/";
   // Paint the drawing immediately. Image files are not on the first view, so they load after.
-  const scene = useMemo(() => buildScene(), []);
+  const scene = useMemo(() => (missing ? buildNotFound() : buildScene()), [missing]);
   const filesPromise = useMemo(() => loadSceneFiles(SCENE_FILES), []);
   const initialData = useMemo<ExcalidrawInitialDataState>(
     () => ({
@@ -175,8 +179,8 @@ export function App() {
         if (apiRef.current !== api) {
           return;
         }
-        const fitted = buildScene();
-        if (EDIT_MODE) {
+        const fitted = missing ? buildNotFound() : buildScene();
+        if (!missing && EDIT_MODE) {
           api.updateScene({
             elements: fitted.elements.map((element) => ({ ...element, locked: false })),
             captureUpdate: CaptureUpdateAction.NEVER,
@@ -191,9 +195,11 @@ export function App() {
         booksRef.current = fitted.books;
         setWebsites(fitted.websites);
 
-        const focus = fitted.elements.filter((element) =>
-          EDIT_MODE ? FUN_EDIT_IDS.includes(element.id) : INITIAL_VIEW_IDS.has(element.id),
-        );
+        const focus = missing
+          ? fitted.elements
+          : fitted.elements.filter((element) =>
+              EDIT_MODE ? FUN_EDIT_IDS.includes(element.id) : INITIAL_VIEW_IDS.has(element.id),
+            );
         const mobile = isMobileViewport();
         const framed = viewBelowToolbar(focus, api.getAppState(), mobile);
         const selectedElementIds: Record<string, true> = {};
@@ -211,17 +217,20 @@ export function App() {
           api.setActiveTool({ type: "hand" });
         }
         setReady(true);
-        if (!EDIT_MODE) {
+        if (!missing && !EDIT_MODE) {
           stopPresenceRef.current ??= startPresence(api);
         }
 
+        if (missing) {
+          return;
+        }
         const files = await filesPromise;
         if (apiRef.current === api) {
           api.addFiles(Object.values(files));
         }
       })();
     },
-    [filesPromise, scene],
+    [filesPromise, missing, scene],
   );
 
   useEffect(
@@ -266,8 +275,30 @@ export function App() {
         return;
       }
       const link = links.hover(api, pointer, containerRef.current);
-      // Books already react with their hover card.
-      const highlighted = link && !(link.type === "image" && link.fileId?.startsWith("book-")) ? link : undefined;
+      const overButton = link?.customData?.button === true;
+      if (overButton !== homeButtonHoverRef.current) {
+        homeButtonHoverRef.current = overButton;
+        const backgroundColor = overButton ? HOME_BUTTON_HOVER : HOME_BUTTON_FILL;
+        const elements = api.getSceneElements();
+        if (elements.some((element) => element.id === HOME_BUTTON_ID)) {
+          api.updateScene({
+            elements: elements.map((element) =>
+              element.id === HOME_BUTTON_ID
+                ? {
+                    ...element,
+                    backgroundColor,
+                    version: element.version + 1,
+                    versionNonce: Math.floor(Math.random() * 2 ** 31),
+                  }
+                : element,
+            ),
+            captureUpdate: CaptureUpdateAction.NEVER,
+          });
+        }
+      }
+      // Books already react with their hover card. The home button darkens itself instead of an underline.
+      const highlighted =
+        link && !overButton && !(link.type === "image" && link.fileId?.startsWith("book-")) ? link : undefined;
       if ((highlighted?.id ?? null) !== hoveredLinkIdRef.current) {
         hoveredLinkIdRef.current = highlighted?.id ?? null;
         setHoveredLink(
@@ -320,7 +351,12 @@ export function App() {
   }, []);
 
   return (
-    <div ref={containerRef} className={ready ? "portfolio portfolio--ready" : "portfolio"}>
+    <div
+      ref={containerRef}
+      className={["portfolio", ready ? "portfolio--ready" : "", missing ? "portfolio--lost" : ""]
+        .filter(Boolean)
+        .join(" ")}
+    >
       <Excalidraw
         excalidrawAPI={handleApi}
         initialData={initialData}
@@ -337,7 +373,7 @@ export function App() {
       </Excalidraw>
       <SceneLayer ref={worldRef} websites={websites} link={hoveredLink} onPan={panCanvas} />
       {hoveredBook && <BookCard hovered={hoveredBook} />}
-      {ready && <PresenceFollow api={apiRef.current} following={following} />}
+      {ready && !missing && <PresenceFollow api={apiRef.current} following={following} />}
     </div>
   );
 }

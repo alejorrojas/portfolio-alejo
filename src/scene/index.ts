@@ -4,6 +4,7 @@ import { BOOKS_2026, OPEN_SOURCE, TALKS } from "./content";
 import { resetDrawing } from "./draw";
 import type { Skeleton } from "./draw";
 import type { SceneFile } from "./files";
+import { notFound } from "./not-found";
 import { education } from "./sections/education";
 import { experience } from "./sections/experience";
 import { fun } from "./sections/fun";
@@ -76,4 +77,15 @@ export function buildScene(): Scene {
   }));
   const elements = [...generated, ...(SKETCHES as typeof generated)];
   return { elements, websites: [...play.websites, ...work.websites, ...paper.websites], books: shelf.books };
+}
+
+/** Same board, but only the missing-page drawing. No portfolio, no embedded sites. */
+export function buildNotFound(): Scene {
+  resetDrawing();
+  const elements = convertToExcalidrawElements(notFound(), { regenerateIds: false }).map((element) => ({
+    ...element,
+    seed: stableSeed(element.id),
+    locked: true,
+  }));
+  return { elements, websites: [], books: [] };
 }

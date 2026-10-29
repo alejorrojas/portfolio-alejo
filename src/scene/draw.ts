@@ -56,6 +56,8 @@ type Common = {
   /** Degrees. Defaults to a slight random tilt; pass 0 to keep it straight. */
   angle?: number;
   link?: string;
+  /** Filled control: hover darkens it instead of underlining the words. */
+  button?: boolean;
 };
 
 const common = (o: Common, tilt: number) => ({
@@ -70,7 +72,14 @@ const common = (o: Common, tilt: number) => ({
   angle: deg(o.angle ?? wobble(tilt)),
   // Excalidraw's native `link` paints an icon on the canvas; ours is handled in src/links.ts.
   link: null,
-  ...(o.link ? { customData: { href: o.link } } : {}),
+  ...(o.link || o.button
+    ? {
+        customData: {
+          ...(o.link ? { href: o.link } : {}),
+          ...(o.button ? { button: true } : {}),
+        },
+      }
+    : {}),
   locked: true,
 });
 
