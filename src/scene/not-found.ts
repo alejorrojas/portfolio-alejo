@@ -14,17 +14,12 @@ const stroke = (
   x: number,
   y: number,
   points: Point[],
-  shake = 1.6,
+  shake = 1,
   width = 2,
   closed = false,
 ): Skeleton => line(x, y, points, { color: BLACK, shake, strokeWidth: width, closed });
 
-const mix = (from: Point, to: Point, t: number): Point => [
-  from[0] + (to[0] - from[0]) * t,
-  from[1] + (to[1] - from[1]) * t,
-];
-
-const poly = (points: Point[], shake = 1.4, width = 2, closed = false): Skeleton =>
+const poly = (points: Point[], shake = 0.8, width = 2, closed = false): Skeleton =>
   stroke(
     points[0][0],
     points[0][1],
@@ -34,211 +29,183 @@ const poly = (points: Point[], shake = 1.4, width = 2, closed = false): Skeleton
     closed,
   );
 
-/** The bridge runs toward this point, so the far tower and the deck shrink. */
-const VP: Point = [760, 210];
-/** Near edge of the deck (closer to the viewer, lower on the page). */
-const NEAR: Point = [-700, 560];
-/** Far edge of the deck (farther from the viewer). */
-const FAR: Point = [-610, 468];
-const DECK_THICK = NEAR[1] - FAR[1];
-const TOWER_H = 320;
-const NEAR_TOWER = 0.14;
-const FAR_TOWER = 0.62;
+const DECK = 392;
+const TRUSS = 34;
+const TOWER_TOP = 156;
+const TOWER_W = 86;
+const LEFT = -360;
+const RIGHT = 360;
 
-const deckNear = (t: number) => mix(NEAR, VP, t);
-const deckFar = (t: number) => mix(FAR, VP, t);
-const deckCenter = (t: number): Point => {
-  const near = deckNear(t);
-  const far = deckFar(t);
-  return [(near[0] + far[0]) / 2, (near[1] + far[1]) / 2];
-};
-const deckScale = (t: number) => Math.max(0.22, (deckNear(t)[1] - deckFar(t)[1]) / DECK_THICK);
-
-/** How high the cable sits above the deck, 0 at the shores and 1 on a tower. */
-const cableLift = (t: number) => {
-  const keys: Point[] = [
-    [0, 0],
-    [NEAR_TOWER, 1],
-    [0.36, 0.36],
-    [FAR_TOWER, 1],
-    [0.8, 0],
-  ];
-  for (let i = 0; i < keys.length - 1; i++) {
-    const [t0, lift0] = keys[i];
-    const [t1, lift1] = keys[i + 1];
-    if (t < t0 || t > t1) {
-      continue;
-    }
-    const u = (t - t0) / (t1 - t0);
-    const eased = (1 - Math.cos(u * Math.PI)) / 2;
-    return lift0 + (lift1 - lift0) * eased;
-  }
-  return 0;
-};
-
-const cableAt = (t: number): Point => {
-  const center = deckCenter(t);
-  return [center[0], center[1] - cableLift(t) * TOWER_H * deckScale(t)];
-};
-
-const cable = (): Skeleton => {
+const droop = (from: Point, to: Point, sag: number, steps: number): Point[] => {
   const points: Point[] = [];
-  for (let i = 0; i <= 32; i++) {
-    points.push(cableAt(0.84 * (i / 32)));
+  for (let i = 0; i <= steps; i++) {
+    const t = i / steps;
+    points.push([
+      from[0] + (to[0] - from[0]) * t,
+      from[1] + (to[1] - from[1]) * t + Math.sin(t * Math.PI) * sag,
+    ]);
   }
-  return poly(points, 0.8, 2);
+  return points;
 };
 
-const suspenders = (): Skeleton[] => {
+/** One Golden Gate tower, seen straight on: portal, X braces, legs into the water. */
+const tower = (cx: number): Skeleton[] => {
+  const leg = 14;
+  const left = cx - TOWER_W / 2;
+  const right = cx + TOWER_W / 2 - leg;
+  const gap = right - (left + leg);
+  const pier = DECK + 58;
   const drawn: Skeleton[] = [];
-  for (let i = 1; i < 16; i++) {
-    const t = 0.84 * (i / 16);
-    if (Math.abs(t - NEAR_TOWER) < 0.05 || Math.abs(t - FAR_TOWER) < 0.045) {
-      continue;
-    }
-    const from = cableAt(t);
-    const to = deckCenter(t);
-    if (to[1] - from[1] < 22) {
-      continue;
-    }
-    drawn.push(poly([from, to], 0.4, 1));
-  }
-  return drawn;
-};
+  const column = (x: number, y0: number, y1: number) =>
+    stroke(x, y0, [[0, 0], [leg, 0], [leg, y1 - y0], [0, y1 - y0]], 0.8, 2, true);
 
-const truss = (): Skeleton[] => {
-  const steps = 14;
-  const near: Point[] = [];
-  const far: Point[] = [];
-  const ts: number[] = [];
-  for (let i = 0; i <= steps; i++) {
-    const t = 0.86 * (i / steps);
-    ts.push(t);
-    near.push(deckNear(t));
-    far.push(deckFar(t));
-  }
-  const drawn: Skeleton[] = [poly(near, 0.9, 2), poly(far, 0.9, 2)];
-  for (let i = 0; i <= steps; i++) {
-    const onTower = Math.abs(ts[i] - NEAR_TOWER) < 0.035 || Math.abs(ts[i] - FAR_TOWER) < 0.03;
-    if (onTower) {
-      continue;
-    }
-    drawn.push(poly([far[i], near[i]], 0.8, 1));
-  }
-  return drawn;
-};
+  drawn.push(column(left, TOWER_TOP, pier), column(right, TOWER_TOP, pier));
+  drawn.push(stroke(left - 4, TOWER_TOP - 12, [[0, 12], [0, 0], [TOWER_W + 8, 0], [TOWER_W + 8, 12]], 0.6, 2));
 
-/** A tower standing on the deck at depth `t` (0 is close, 1 is the vanishing point). */
-const tower = (t: number): Skeleton[] => {
-  const scale = deckScale(t);
-  const height = TOWER_H * scale;
-  const drop = 24 * scale;
-  const leg = (u: number) => {
-    const foot = mix(deckFar(t), deckNear(t), u);
-    return {
-      pier: [foot[0], foot[1] + drop] as Point,
-      foot,
-      top: [foot[0], foot[1] - height * 0.94] as Point,
-    };
-  };
-  const left = leg(0.12);
-  const leftIn = leg(0.3);
-  const rightIn = leg(0.7);
-  const right = leg(0.88);
-  const cap = (foot: Point): Point => [foot[0], foot[1] - height];
-  const drawn: Skeleton[] = [
-    poly([left.pier, left.top, leftIn.top, leftIn.pier], 1.3, 2, true),
-    poly([rightIn.pier, rightIn.top, right.top, right.pier], 1.3, 2, true),
-    poly([cap(left.foot), cap(leftIn.foot), cap(rightIn.foot), cap(right.foot)], 1.2, 2, true),
-  ];
-
-  const along = (from: Point, to: Point, u: number): Point => mix(from, to, u);
-  const bays = 3;
+  const bays = 4;
+  const body = DECK - TOWER_TOP;
   for (let i = 0; i < bays; i++) {
-    const u0 = i / bays;
-    const u1 = (i + 1) / bays;
-    const a0 = along(leftIn.foot, leftIn.top, u0);
-    const a1 = along(leftIn.foot, leftIn.top, u1);
-    const b0 = along(rightIn.foot, rightIn.top, u0);
-    const b1 = along(rightIn.foot, rightIn.top, u1);
-    drawn.push(poly([a0, b0], 1.2, 2));
-    if (i === bays - 1) {
-      const window: Point[] = [
-        along(a0, b0, 0.22),
-        along(a0, b0, 0.78),
-        along(a1, b1, 0.78),
-        along(a1, b1, 0.22),
-      ];
-      drawn.push(poly(window, 1, 1, true));
+    const y0 = TOWER_TOP + (body * i) / bays;
+    const y1 = TOWER_TOP + (body * (i + 1)) / bays;
+    drawn.push(stroke(left + leg, y0, [[0, 0], [gap, 0]], 0.5, 2));
+    if (i === 0) {
+      const pad = 8;
+      drawn.push(
+        stroke(left + leg + pad, y0 + 8, [[0, 0], [gap - pad * 2, 0], [gap - pad * 2, y1 - y0 - 16], [0, y1 - y0 - 16]], 0.4, 1, true),
+      );
       continue;
     }
-    drawn.push(poly([a0, b1], 1.5, 2));
-    drawn.push(poly([b0, a1], 1.5, 2));
+    drawn.push(stroke(left + leg, y0, [[0, 0], [gap, y1 - y0]], 0.9, 2));
+    drawn.push(stroke(right, y0, [[0, 0], [-gap, y1 - y0]], 0.9, 2));
   }
-  drawn.push(poly([leftIn.foot, rightIn.foot], 1.1, 2));
+  drawn.push(stroke(left + leg, DECK, [[0, 0], [gap, 0]], 0.5, 2));
+  drawn.push(stroke(left, pier, [[0, 0], [TOWER_W, 0]], 0.6, 2));
+
+  for (const x of [left + 3, right + 3]) {
+    for (let i = 0; i < 4; i++) {
+      const y = TOWER_TOP + 28 + i * 46;
+      drawn.push(stroke(x, y, [[0, 0], [8, 0], [8, 16], [0, 16]], 0.3, 1, true));
+    }
+  }
   return drawn;
 };
 
-const ripple = (below: number): Skeleton => {
-  const points: Point[] = [];
-  for (let i = 0; i <= 14; i++) {
-    const t = 0.9 * (i / 14);
-    const near = deckNear(t);
-    const scale = deckScale(t);
-    points.push([near[0] + 30 * scale, near[1] + below * scale + Math.sin(i * 1.3) * 3 * scale]);
+const deck = (): Skeleton[] => {
+  const x0 = -760;
+  const x1 = 760;
+  const drawn: Skeleton[] = [
+    stroke(x0, DECK, [[0, 0], [x1 - x0, 0]], 0.5, 2),
+    stroke(x0, DECK + TRUSS, [[0, 0], [x1 - x0, 0]], 0.5, 2),
+  ];
+  const step = 28;
+  for (let x = x0; x < x1 - 4; x += step) {
+    const w = Math.min(step, x1 - x);
+    drawn.push(stroke(x, DECK, [[0, 0], [0, TRUSS]], 0.3, 1));
+    drawn.push(stroke(x, DECK, [[0, 0], [w, TRUSS]], 0.6, 1));
+    drawn.push(stroke(x, DECK + TRUSS, [[0, 0], [w, -TRUSS]], 0.6, 1));
   }
-  return poly(points, 1.2, 1);
+  return drawn;
 };
 
-const bush = (origin: Point, scale: number): Skeleton[] => {
-  const w = 120 * scale;
-  const h = 90 * scale;
-  return [
-    stroke(
-      origin[0],
-      origin[1],
-      [
-        [0, h * 0.65],
-        [w * 0.15, h * 0.2],
-        [w * 0.4, 0],
-        [w * 0.7, h * 0.16],
-        [w, h * 0.5],
-        [w * 0.62, h],
-        [w * 0.2, h * 0.9],
-      ],
-      2.2,
-      2,
-    ),
+const LEFT_TOP: Point = [LEFT, TOWER_TOP + 4];
+const RIGHT_TOP: Point = [RIGHT, TOWER_TOP + 4];
+const LEFT_SHORE: Point = [-740, DECK];
+const RIGHT_SHORE: Point = [740, DECK];
+const MAIN_SAG = 186;
+
+const cable = (): Skeleton =>
+  poly(
+    [
+      ...droop(LEFT_SHORE, LEFT_TOP, 26, 8),
+      ...droop(LEFT_TOP, RIGHT_TOP, MAIN_SAG, 20).slice(1),
+      ...droop(RIGHT_TOP, RIGHT_SHORE, 26, 8).slice(1),
+    ],
+    0.5,
+    2,
+  );
+
+const hangers = (): Skeleton[] => {
+  const spans: [Point, Point, number, number][] = [
+    [LEFT_SHORE, LEFT_TOP, 26, 28],
+    [LEFT_TOP, RIGHT_TOP, MAIN_SAG, 24],
+    [RIGHT_TOP, RIGHT_SHORE, 26, 28],
   ];
+  const drawn: Skeleton[] = [];
+  for (const [from, to, sag, spacing] of spans) {
+    const count = Math.max(4, Math.round(Math.abs(to[0] - from[0]) / spacing));
+    for (let i = 1; i < count; i++) {
+      const t = i / count;
+      const x = from[0] + (to[0] - from[0]) * t;
+      if (Math.abs(x - LEFT) < 50 || Math.abs(x - RIGHT) < 50) {
+        continue;
+      }
+      const y = from[1] + (to[1] - from[1]) * t + Math.sin(t * Math.PI) * sag;
+      if (DECK - y < 14) {
+        continue;
+      }
+      drawn.push(stroke(x, y, [[0, 0], [0, DECK - y]], 0.2, 1));
+    }
+  }
+  return drawn;
 };
 
-const boat = (): Skeleton[] => {
-  const t = 0.42;
-  const center = deckNear(t);
-  const scale = deckScale(t);
-  const x = center[0] - 10;
-  const y = center[1] + 36 * scale;
-  const w = 40 * scale;
-  return [
-    stroke(x, y, [[0, 0], [w, 0], [w * 0.75, 8 * scale], [w * 0.22, 8 * scale]], 1.2, 1, true),
-    stroke(x + w * 0.45, y, [[0, 0], [0, -22 * scale]], 0.6, 1),
-    stroke(x + w * 0.45, y - 20 * scale, [[0, 0], [14 * scale, 10 * scale], [0, 12 * scale]], 1.2, 1),
-  ];
+const wave = (y: number, x0: number, x1: number, amp: number): Skeleton => {
+  const points: Point[] = [];
+  const steps = 22;
+  for (let i = 0; i <= steps; i++) {
+    const t = i / steps;
+    points.push([x0 + (x1 - x0) * t, Math.sin(t * Math.PI * 5) * amp]);
+  }
+  return poly(points.map((point) => [point[0], y + point[1]]), 0.5, 1);
 };
 
-/** A blank board: the missing-page note over a sketched Golden Gate, seen in perspective. */
+const bush = (x: number, y: number, w: number, h: number): Skeleton[] => [
+  stroke(
+    x,
+    y,
+    [
+      [0, h * 0.72],
+      [w * 0.12, h * 0.28],
+      [w * 0.3, h * 0.08],
+      [w * 0.48, 0],
+      [w * 0.66, h * 0.1],
+      [w * 0.84, h * 0.32],
+      [w, h * 0.58],
+      [w * 0.7, h],
+      [w * 0.28, h * 0.9],
+    ],
+    1.6,
+    2,
+  ),
+  stroke(x + w * 0.25, y + h * 0.55, [[0, 0], [w * 0.14, -h * 0.25], [w * 0.28, -h * 0.02]], 1.4, 1),
+];
+
+const hill = (x: number, y: number, w: number, h: number): Skeleton =>
+  stroke(x, y, [[0, h], [w * 0.2, h * 0.35], [w * 0.45, 0], [w * 0.7, h * 0.4], [w, h]], 1.2, 1);
+
+const boat = (x: number, y: number): Skeleton[] => [
+  stroke(x, y, [[0, 0], [34, 0], [26, 8], [8, 8]], 0.7, 1, true),
+  stroke(x + 18, y, [[0, 0], [0, -28]], 0.3, 1),
+  stroke(x + 18, y - 26, [[0, 0], [-12, 14], [0, 16]], 0.7, 1),
+  stroke(x + 18, y - 24, [[0, 0], [10, 12], [0, 14]], 0.7, 1),
+];
+
+/** The reference elevation: two matching towers, a hanging cable, and the bay around it. */
 export const notFound = (): Skeleton[] => [
-  ripple(28),
-  ripple(52),
-  ripple(74),
-  ...bush([-760, 500], 1),
-  ...bush([520, 300], 0.45),
-  ...truss(),
-  ...suspenders(),
+  hill(-120, 470, 260, 28),
+  wave(500, -720, 720, 2),
+  wave(528, -700, 700, 2),
+  wave(556, -680, 680, 2),
+  ...bush(-820, 430, 120, 100),
+  ...bush(-730, 455, 90, 78),
+  ...bush(620, 400, 130, 130),
+  ...bush(730, 445, 90, 80),
+  ...deck(),
+  ...hangers(),
   cable(),
-  ...tower(NEAR_TOWER),
-  ...tower(FAR_TOWER),
-  ...boat(),
+  ...tower(LEFT),
+  ...tower(RIGHT),
+  ...boat(-8, 478),
   text(-184, -36, "oops that page\ndoes not exist", {
     id: "lost-title",
     size: 48,
