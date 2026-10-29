@@ -236,7 +236,7 @@ export const FUN: SideProject[] = [
     url: "https://jorgeluisborges.org/",
     preview: "/images/sites/borges.webp",
     title: "for borges",
-    body: "I love literature. I find it one of the\npurest arts. It only needs a modest\nalphabet (it could be 23 letters and\nsome signs, like ours), someone with\nsomething to say and someone with\nsomething to hear.\nBorges is one of my favorite writers,\nand one of the greatest of all time.",
+    body: "I love literature. I find it one of the\npurest arts. Borges got me into reading\nwith \"The Aleph,\" and I have been reading\nhim since I was a kid. What I found was\nnot a list of books to admire. It was\na way of looking. A page could hold a city,\na century, a belief I had never lived,\nand still be exact.",
   },
 ];
 
