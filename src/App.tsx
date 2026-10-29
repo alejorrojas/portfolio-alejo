@@ -13,6 +13,7 @@ import type {
 } from "@excalidraw/excalidraw/element/types";
 
 import { createEditRecorder, EDIT_MODE } from "./edit-mode";
+import { FUN_EDIT_IDS, FUN_EDIT_SELECTION } from "./scene/sections/fun";
 import { waitForFonts } from "./fonts";
 import { createLinks } from "./links";
 import { PortfolioMenu } from "./menu";
@@ -191,10 +192,20 @@ export function App() {
         setWebsites(fitted.websites);
 
         const focus = fitted.elements.filter((element) =>
-          EDIT_MODE ? element.id === "reading-challenge-frame" : INITIAL_VIEW_IDS.has(element.id),
+          EDIT_MODE ? FUN_EDIT_IDS.includes(element.id) : INITIAL_VIEW_IDS.has(element.id),
         );
         const mobile = isMobileViewport();
-        api.updateScene({ appState: viewBelowToolbar(focus, api.getAppState(), mobile) });
+        const framed = viewBelowToolbar(focus, api.getAppState(), mobile);
+        const selectedElementIds: Record<string, true> = {};
+        if (EDIT_MODE) {
+          for (const id of FUN_EDIT_SELECTION) {
+            selectedElementIds[id] = true;
+          }
+        }
+        api.updateScene({ appState: { ...framed, selectedElementIds } });
+        if (EDIT_MODE) {
+          api.setActiveTool({ type: "selection" });
+        }
         // Mobile: default to the hand tool so the canvas can be panned immediately.
         if (mobile && !EDIT_MODE) {
           api.setActiveTool({ type: "hand" });

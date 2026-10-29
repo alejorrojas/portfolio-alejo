@@ -22,7 +22,7 @@ export const INITIAL_VIEW_IDS = new Set(INTRO_IDS);
 
 const LOGOS = ["simpleble", "the-network", "rebill", "digital-house", "nlasmith", "utn", "campus-party"];
 
-export const SCENE_FONTS = ["Virgil", "Nunito"];
+export const SCENE_FONTS = ["Virgil", "Nunito", "Comic Shanns"];
 
 export const SCENE_FILES: SceneFile[] = [
   ...TALKS.flatMap(({ photos }) => photos).map((name) => ({

@@ -96,7 +96,12 @@ export type Talk = {
 };
 
 export const TALKS: Talk[] = [
-  { photos: ["campus-party"], caption: "Campus Party '22", sub: "solidity workshop, 100+ people" },
+  {
+    photos: ["campus-party"],
+    caption: "Campus Party '22 ↗",
+    sub: "solidity workshop, 100+ people",
+    link: "https://lnkd.in/p/ddjmiTJK",
+  },
   {
     photos: ["cursor-1", "cursor-2"],
     caption: "Cursor meetup ↗",
@@ -224,7 +229,7 @@ export const FUN: SideProject[] = [
     url: "https://padel.alejorrojas.com/",
     preview: "/images/sites/padel.webp",
     title: "birthday padel cup",
-    body: "For my birthday I got 24 friends\ntogether for a padel tournament.\nI built the app to run the night:\ngroups, a full fixture on two courts,\nlive scores, a rulebook, and a gold,\nsilver and bronze cup so nobody\nsits out. Votes for player of the\nnight and breakthrough player,\nprizes, and the photos.\nToo much for a birthday.\nThe photos got extra care. There\nwere a lot of them, so that section\nhad to load fast.",
+    body: "For my birthday I got 24 friends\ntogether for a padel tournament.\nThe software sets the teams, builds\nthe fixture, shows live scores on\nevery match, and makes the next rounds\nfrom those results, with votes for\nplayer of the night and breakthrough\nplayer. The photos got extra care\nbecause there were a lot of them, so\nthat section had to load fast.",
   },
   {
     id: "borges",
