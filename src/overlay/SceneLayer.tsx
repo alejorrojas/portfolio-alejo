@@ -175,7 +175,14 @@ export const SceneLayer = forwardRef<HTMLDivElement, Props>(function SceneLayer(
           <div
             key={site.id}
             className="scene-layer__site"
-            style={{ left: site.x, top: site.y, width: site.width, height: site.height }}
+            style={{
+              left: site.x,
+              top: site.y,
+              width: site.width,
+              height: site.height,
+              transform: site.angle ? `rotate(${site.angle}deg)` : undefined,
+              transformOrigin: "center",
+            }}
           >
             <ScrollChain onPan={onPan}>
               <FramedSite site={site} />
