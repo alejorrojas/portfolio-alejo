@@ -6,6 +6,7 @@ import type { Skeleton } from "./draw";
 import type { SceneFile } from "./files";
 import { education } from "./sections/education";
 import { experience } from "./sections/experience";
+import { fun } from "./sections/fun";
 import { intro, INTRO_IDS } from "./sections/intro";
 import { openSource } from "./sections/open-source";
 import { reading } from "./sections/reading";
@@ -56,7 +57,9 @@ export function buildScene(): Scene {
   const work = experience(2300, -300);
   const paper = research(4100, -300);
   const shelf = reading(-2369, -400);
+  const play = fun(-260, -3560);
   const skeleton: Skeleton[] = [
+    ...play.elements,
     ...intro(),
     ...work.elements,
     ...paper.elements,
@@ -72,5 +75,5 @@ export function buildScene(): Scene {
     locked: true,
   }));
   const elements = [...generated, ...(SKETCHES as typeof generated)];
-  return { elements, websites: [...work.websites, ...paper.websites], books: shelf.books };
+  return { elements, websites: [...play.websites, ...work.websites, ...paper.websites], books: shelf.books };
 }

@@ -106,9 +106,10 @@ export const TALKS: Talk[] = [
   },
   {
     photos: ["v0-1", "v0-2"],
-    caption: "v0 meetup",
+    caption: "v0 meetup ↗",
     logo: "v0",
     sub: "300+ people talking AI & cybersecurity, closed with empanadas",
+    link: "https://lnkd.in/p/d_EJHiJ9",
   },
   {
     photos: ["supabase-1", "supabase-2"],
@@ -199,6 +200,38 @@ export const BOOKS_2026: Book[] = [
     rating: 5,
     review:
       "One of the most beautiful love stories I've ever read. Not just romantic love, but love for art, creation and expression. Their life of having almost nothing, yet somehow enough to keep making art. Told with a beauty only Patti could pull off. I loved looking up the photos, songs and short films they made while I was reading. Highly recommended. The ending crushed me.",
+  },
+];
+
+export type SideProject = {
+  id: string;
+  url: string;
+  preview: string;
+  title: string;
+  body: string;
+};
+
+export const FUN: SideProject[] = [
+  {
+    id: "whatsappblur",
+    url: "https://whatsappblur.com/",
+    preview: "/images/sites/whatsappblur.webp",
+    title: "tabu",
+    body: "We all have that moment. WhatsApp\nopen on a computer, in public.\nYou feel exposed. Anyone behind\nyou could read along. Tabu blurs\nthe chats until you are the one\nlooking.",
+  },
+  {
+    id: "padel",
+    url: "https://padel.alejorrojas.com/",
+    preview: "/images/sites/padel.webp",
+    title: "birthday padel cup",
+    body: "For my birthday I got 24 friends\ntogether for a padel tournament.\nI built the app to run the night:\ngroups, a full fixture on two courts,\nlive scores, a rulebook, and a gold,\nsilver and bronze cup so nobody\nsits out. Votes for player of the\nnight and breakthrough player,\nprizes, and the photos.\nToo much for a birthday.\nThe photos got extra care. There\nwere a lot of them, so that section\nhad to load fast.",
+  },
+  {
+    id: "borges",
+    url: "https://jorgeluisborges.org/",
+    preview: "/images/sites/borges.webp",
+    title: "for borges",
+    body: "I love literature. I find it one of the\npurest arts. It only needs a modest\nalphabet (it could be 23 letters and\nsome signs, like ours), someone with\nsomething to say and someone with\nsomething to hear.\nBorges is one of my favorite writers,\nand one of the greatest of all time.",
   },
 ];
 
