@@ -74,20 +74,20 @@ const common = (o: Common, tilt: number) => ({
   locked: true,
 });
 
-type TextOpts = Common & { size?: number; align?: "left" | "center" | "right" };
+type TextOpts = Common & { size?: number; align?: "left" | "center" | "right"; steady?: boolean };
 
 export const text = (x: number, y: number, value: string, o: TextOpts = {}): Skeleton => ({
   type: "text",
-  x: x + wobble(4),
-  y: y + wobble(3),
+  x: o.steady ? x : x + wobble(4),
+  y: o.steady ? y : y + wobble(3),
   text: value,
   fontSize: o.size ?? 22,
   fontFamily: FONT.hand,
   textAlign: o.align ?? "left",
-  ...common(o, 1.2),
+  ...common({ ...o, angle: o.steady ? (o.angle ?? 0) : o.angle }, 1.2),
 });
 
-type ShapeOpts = Common & { label?: string; labelSize?: number; rounded?: boolean };
+type ShapeOpts = Common & { label?: string; labelSize?: number; rounded?: boolean; steady?: boolean };
 
 const shape =
   (type: "rectangle" | "ellipse" | "diamond") =>
@@ -95,8 +95,8 @@ const shape =
     type,
     x,
     y,
-    width: width + wobble(6),
-    height: height + wobble(4),
+    width: o.steady ? width : width + wobble(6),
+    height: o.steady ? height : height + wobble(4),
     roundness: type === "rectangle" && !o.rounded ? null : { type: 3 },
     ...common(o, 1),
     ...(o.label

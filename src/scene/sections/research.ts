@@ -5,13 +5,14 @@ import { browserWindow } from "./window";
 const ACCENT = "#df734f";
 const ACCENT_WASH = "#ffd8a8";
 const PAPER_URL = "https://nlasmith.com/paper";
+const NLA_URL = "https://transformer-circuits.pub/2026/nla";
 
 const PIPELINE = ["Dataset", "Token\npolicy", "NLA\n(Neuronpedia)", "LLM judge", "Metrics"];
 
 export const research = (x: number, y: number) => {
   const boxWidth = 150;
   const gap = 46;
-  const boxY = y + 420;
+  const boxY = y + 856;
   const boxes = PIPELINE.map((label, i) => ({ id: `nla-step-${i}`, label, x: x + i * (boxWidth + gap) }));
   const window = browserWindow("site-nlasmith", x + 1060, y + 120, 760, 470, "https://nlasmith.com", {
     preview: "/images/sites/nlasmith.webp",
@@ -25,21 +26,34 @@ export const research = (x: number, y: number) => {
     text(x + 120, y + 216, "a framework for experimenting with\nNatural Language Autoencoders.", { size: 24 }),
     text(
       x,
-      y + 332,
-      "You choose which tokens to read. Neuronpedia turns those activations into words.\nAn LLM judge scores them with your rubric, so each run can be repeated and compared.\npaper @ a university congress, w/ Juan Ignacio Rodriguez Leiva (UTN FRRe)",
-      {
-        size: 18,
-        color: INK.gray,
-      },
+      y + 356,
+      "I find the interpretability area of study one of the most\nimportant fields of research in the modern era. In Anthropic's words,\n\"It's hard to reason about the safety of neural networks\nwithout understanding what happens inside them,\" so contributing\nto this area of knowledge feels like a noble pursuit to me.",
+      { size: 18, color: INK.gray },
+    ),
+    text(x, y + 496, "This work is a small contribution on an interpretability mechanism", {
+      size: 18,
+      color: INK.gray,
+      steady: true,
+    }),
+    text(x, y + 519, "proposed by ", { size: 18, color: INK.gray, steady: true }),
+    text(x + 111, y + 519, "Anthropic", { size: 18, color: ACCENT, link: NLA_URL, steady: true }),
+    text(x + 190, y + 519, " called NLAs.", { size: 18, color: INK.gray, steady: true }),
+    text(
+      x,
+      y + 556,
+      "Natural Language Autoencoders (NLAs) convert an activation\ninto natural language text we can read directly.\nOur proposal takes that mechanism and proposes a platform\nto directly run experiments with NLAs. You choose the tokens\nto read from activations. Neuronpedia writes them out.\nAn LLM judge scores them with your rubric and you get\nyour results based on metrics.\n\npaper @ a university congress, w/ Juan Ignacio Rodriguez Leiva (UTN FRRe)",
+      { size: 18, color: INK.gray },
     ),
 
     ...boxes.map((box, i) =>
-      rect(box.x, boxY + (i % 2) * 18, boxWidth, 86, {
+      rect(box.x, boxY, boxWidth, 86, {
         id: box.id,
         label: box.label,
         labelSize: 20,
         fill: i === 2 ? ACCENT_WASH : "transparent",
         color: i === 2 ? ACCENT : INK.black,
+        angle: 0,
+        steady: true,
       }),
     ),
     ...boxes.slice(0, -1).map((box, i) =>
