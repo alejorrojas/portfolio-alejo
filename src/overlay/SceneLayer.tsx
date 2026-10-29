@@ -105,8 +105,9 @@ const FramedSite = ({ site }: { site: WebsiteSlot }) => {
   if (site.screenshot) {
     return (
       <div className="scene-layer__frame scene-layer__frame--scroll">
-        {/* Not a link: open the site via the canvas title (`host ↗`) only. */}
-        <img src={site.screenshot} alt={new URL(site.url).host} loading="lazy" draggable={false} />
+        <a href={site.url} target="_blank" rel="noreferrer">
+          <img src={site.screenshot} alt={new URL(site.url).host} loading="lazy" draggable={false} />
+        </a>
       </div>
     );
   }
@@ -134,13 +135,20 @@ const FramedSite = ({ site }: { site: WebsiteSlot }) => {
           <span className="scene-layer__spinner" />
         </div>
       )}
+      {phase !== "live" && (
+        <a
+          className="scene-layer__open"
+          href={site.url}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={new URL(site.url).host}
+        />
+      )}
       {phase !== "still" && (
         <iframe
           src={site.url}
           title={new URL(site.url).host}
-          // No allow-popups / allow-top-navigation: browsing stays inside the frame;
-          // the canvas title link is what opens the real site.
-          sandbox="allow-scripts allow-same-origin allow-forms"
+          sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
           referrerPolicy="no-referrer"
           onLoad={() => setIframeReady(true)}
           style={frame}

@@ -140,9 +140,17 @@ body,
   overscroll-behavior: auto;
 }
 
+.scene-layer__frame--scroll a,
 .scene-layer__frame--scroll img {
   display: block;
   width: 100%;
+}
+
+.scene-layer__open {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  cursor: pointer;
 }
 
 .scene-layer__still {
