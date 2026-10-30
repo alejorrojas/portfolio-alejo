@@ -33,9 +33,7 @@ const posters = (x: number, y: number, [front, back]: readonly [string, string])
   const second = x + POSTER.width + POSTER_GAP;
   return [
     image(x, y, POSTER.width, POSTER.height, `poster-${front}`, { angle: -1, download: file(front) }),
-    tape(x + POSTER.width / 2 - 45, y - 14, -3),
     image(second, y + 6, POSTER.width, POSTER.height, `poster-${back}`, { angle: 1, download: file(back) }),
-    tape(second + POSTER.width / 2 - 45, y - 8, 3),
   ];
 };
 
