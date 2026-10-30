@@ -15,10 +15,10 @@ const CONTENT_DX = -320;
 
 /** Loose collages on the board, two per row. No frames. */
 const SPOTS = [
-  { dx: 0, dy: 0 },
-  { dx: 1120, dy: 30 },
-  { dx: 0, dy: 520 },
-  { dx: 1120, dy: 550 },
+  { dx: -313, dy: -12 },
+  { dx: 616, dy: 1 },
+  { dx: -350, dy: 522 },
+  { dx: 770, dy: 552 },
 ];
 
 const file = (name: string) => ({ url: `/images/posters/${name}.png`, name: `${name}.png` });
@@ -48,7 +48,7 @@ const notes = (x: number, y: number, talk: Talk): Skeleton[] => [
 const meetup = (x: number, y: number, talk: Talk): Skeleton[] => {
   if (!talk.posters) {
     return [
-      image(x + POSTER.width + POSTER_GAP / 2 - 100, y + 96, 200, 71, "logo-campus-party", { angle: -5 }),
+      image(x + 208, y + 48, 200, 71, "logo-campus-party", { angle: -5 }),
       ...taped(x + PHOTOS_DX, y, SINGLE.width, SINGLE.height, `photo-${talk.photos[0]}`, -3, talk.link),
       ...notes(x + PHOTOS_DX, y + SINGLE.height + 26, talk),
     ];
@@ -63,6 +63,6 @@ const meetup = (x: number, y: number, talk: Talk): Skeleton[] => {
 };
 
 export const talks = (x: number, y: number): Skeleton[] => [
-  ...heading(x, y, "talks and cool meetups", { underline: 640 }),
+  ...heading(x, y - 19, "talks and cool meetups", { underline: 640 }),
   ...TALKS.flatMap((talk, i) => meetup(x + CONTENT_DX + SPOTS[i].dx, y + 190 + SPOTS[i].dy, talk)),
 ];

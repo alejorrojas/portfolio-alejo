@@ -12,7 +12,7 @@ const PIPELINE = ["Dataset", "Token\npolicy", "NLA\n(Neuronpedia)", "LLM judge",
 export const research = (x: number, y: number) => {
   const boxWidth = 150;
   const gap = 46;
-  const boxY = y + 806;
+  const boxY = y + 789;
   const boxes = PIPELINE.map((label, i) => ({ id: `nla-step-${i}`, label, x: x + 3 + i * (boxWidth + gap) }));
   const window = browserWindow("site-nlasmith", x + 1060, y + 120, 760, 470, "https://nlasmith.com", {
     preview: "/images/sites/nlasmith.webp",
@@ -26,21 +26,21 @@ export const research = (x: number, y: number) => {
     text(x + 120, y + 216, "a framework for experimenting with\nNatural Language Autoencoders.", { size: 16 }),
     text(
       x,
-      y + 320,
+      y + 303,
       "I find the interpretability area of study one of the most\nimportant fields of research in the modern era. In Anthropic's words,\n\"It's hard to reason about the safety of neural networks\nwithout understanding what happens inside them,\" so contributing\nto this area of knowledge feels like a noble pursuit to me.",
       { size: 18, color: INK.gray },
     ),
-    text(x, y + 461, "This work is a small contribution on an interpretability mechanism", {
+    text(x, y + 444, "This work is a small contribution on an interpretability mechanism", {
       size: 18,
       color: INK.gray,
       steady: true,
     }),
-    text(x, y + 484, "proposed by ", { size: 18, color: INK.gray, steady: true }),
-    text(x + 111, y + 484, "Anthropic", { size: 18, color: ACCENT, link: NLA_URL, steady: true }),
-    text(x + 190, y + 484, " called NLAs.", { size: 18, color: INK.gray, steady: true }),
+    text(x, y + 469, "proposed by ", { size: 18, color: INK.gray, steady: true }),
+    text(x + 111, y + 469, "Anthropic", { size: 18, color: ACCENT, link: NLA_URL, steady: true }),
+    text(x + 190, y + 469, " called NLAs.", { size: 18, color: INK.gray, steady: true }),
     text(
       x,
-      y + 521,
+      y + 504,
       "Natural Language Autoencoders (NLAs) convert an activation\ninto natural language text we can read directly.\nOur proposal takes that mechanism and proposes a platform\nto directly run experiments with NLAs. You choose the tokens\nto read from activations. Neuronpedia writes them out.\nAn LLM judge scores them with your rubric and you get\nyour results based on metrics.\n\npaper @ a university congress, w/ Juan Ignacio Rodriguez Leiva (UTN FRRe)",
       { size: 18, color: INK.gray },
     ),
