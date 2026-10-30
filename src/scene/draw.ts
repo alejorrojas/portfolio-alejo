@@ -56,6 +56,8 @@ type Common = {
   /** Degrees. Defaults to a slight random tilt; pass 0 to keep it straight. */
   angle?: number;
   link?: string;
+  /** Same-origin file. A click offers a download instead of navigating. */
+  download?: { url: string; name: string };
   /** Filled control: hover darkens it instead of underlining the words. */
   button?: boolean;
 };
@@ -72,11 +74,12 @@ const common = (o: Common, tilt: number) => ({
   angle: deg(o.angle ?? wobble(tilt)),
   // Excalidraw's native `link` paints an icon on the canvas; ours is handled in src/links.ts.
   link: null,
-  ...(o.link || o.button
+  ...(o.link || o.button || o.download
     ? {
         customData: {
           ...(o.link ? { href: o.link } : {}),
           ...(o.button ? { button: true } : {}),
+          ...(o.download ? { download: o.download.url, filename: o.download.name } : {}),
         },
       }
     : {}),

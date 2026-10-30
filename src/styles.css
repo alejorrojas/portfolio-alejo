@@ -298,6 +298,49 @@ body,
   }
 }
 
+.poster-pop {
+  --card-ink: #1e1e1e;
+  --card-paper: #ffffff;
+  --card-muted: #ced4da;
+  position: absolute;
+  z-index: 3;
+  box-sizing: border-box;
+  pointer-events: auto;
+  font-family: "Virgil", "Excalifont", "Comic Sans MS", cursive;
+  color: var(--card-ink);
+  background: var(--card-paper);
+  border: 2px solid var(--card-ink);
+  border-radius: 255px 12px 225px 12px / 12px 225px 12px 255px;
+  box-shadow: 3px 3px 0 var(--card-muted);
+  transform: rotate(-1.5deg);
+  animation: book-card-in 120ms ease-out;
+}
+
+.poster-pop a {
+  display: block;
+  padding: 8px 0;
+  color: inherit;
+  font-size: 20px;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.poster-pop a:hover {
+  background: #f1f3f5;
+}
+
+.portfolio:has(.excalidraw.theme--dark) .poster-pop {
+  --card-ink: #e3e3e8;
+  --card-paper: #121212;
+  --card-muted: #5c5f66;
+}
+
+.portfolio:has(.excalidraw.theme--dark) .poster-pop a:hover {
+  background: #232329;
+}
+
 /* Keep only the basic drawing tools, without Excalidraw's hints. */
 .excalidraw .HintViewer,
 .excalidraw .ToolIcon__lock,

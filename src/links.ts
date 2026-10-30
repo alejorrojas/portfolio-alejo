@@ -14,6 +14,21 @@ const hrefOf = (element: ExcalidrawElement): string | undefined => {
   return typeof href === "string" ? href : undefined;
 };
 
+const downloadOf = (element: ExcalidrawElement): { url: string; name: string } | undefined => {
+  const url = element.customData?.download;
+  const name = element.customData?.filename;
+  if (typeof url !== "string" || typeof name !== "string") {
+    return undefined;
+  }
+  return { url, name };
+};
+
+export type CanvasClick =
+  | { kind: "ignored" }
+  | { kind: "empty" }
+  | { kind: "opened" }
+  | { kind: "download"; id: string; url: string; name: string };
+
 const contains = (element: ExcalidrawElement, { x, y }: Point) =>
   x >= element.x - HIT_PADDING &&
   x <= element.x + element.width + HIT_PADDING &&
@@ -23,8 +38,9 @@ const contains = (element: ExcalidrawElement, { x, y }: Point) =>
 const linkAt = (api: ExcalidrawImperativeAPI, point: Point) => {
   const elements = api.getSceneElements();
   for (let i = elements.length - 1; i >= 0; i--) {
-    if (hrefOf(elements[i]) && contains(elements[i], point)) {
-      return elements[i];
+    const element = elements[i];
+    if ((hrefOf(element) || downloadOf(element)) && contains(element, point)) {
+      return element;
     }
   }
   return undefined;
@@ -45,19 +61,32 @@ export const createLinks = () => ({
   /** Returns the link element under the pointer, if any. */
   hover(api: ExcalidrawImperativeAPI, point: Point, container: HTMLElement | null) {
     const tool = api.getAppState().activeTool.type;
-    const link = CLICKABLE_TOOLS.has(tool) ? linkAt(api, point) : undefined;
-    container?.classList.toggle(HOVER_CLASS, link !== undefined);
-    return link;
+    const element = CLICKABLE_TOOLS.has(tool) ? linkAt(api, point) : undefined;
+    // Posters download on click. They are not links, so they get no outline.
+    const linked = element && hrefOf(element) ? element : undefined;
+    const clickable = linked !== undefined || (element !== undefined && downloadOf(element) !== undefined);
+    container?.classList.toggle(HOVER_CLASS, clickable);
+    return linked;
   },
 
-  click(api: ExcalidrawImperativeAPI, tool: AppState["activeTool"], state: PointerDownState) {
+  click(api: ExcalidrawImperativeAPI, tool: AppState["activeTool"], state: PointerDownState): CanvasClick {
     const drift = Math.hypot(state.lastCoords.x - state.origin.x, state.lastCoords.y - state.origin.y);
     if (!CLICKABLE_TOOLS.has(tool.type) || drift > MAX_CLICK_DRIFT) {
-      return;
+      return { kind: "ignored" };
     }
-    const href = linkAt(api, state.origin)?.customData?.href;
-    if (typeof href === "string") {
+    const element = linkAt(api, state.origin);
+    if (!element) {
+      return { kind: "empty" };
+    }
+    const href = hrefOf(element);
+    if (href) {
       open(href);
+      return { kind: "opened" };
     }
+    const download = downloadOf(element);
+    if (download) {
+      return { kind: "download", id: element.id, url: download.url, name: download.name };
+    }
+    return { kind: "empty" };
   },
 });

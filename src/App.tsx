@@ -19,6 +19,8 @@ import { createLinks } from "./links";
 import { PortfolioMenu } from "./menu";
 import { BookCard, bookAt } from "./overlay/BookCard";
 import type { HoveredBook } from "./overlay/BookCard";
+import { PosterPop } from "./overlay/PosterPop";
+import type { OpenPoster } from "./overlay/PosterPop";
 import { PresenceFollow } from "./overlay/PresenceFollow";
 import { followViewport, SceneLayer } from "./overlay/SceneLayer";
 import type { LinkHighlight } from "./overlay/SceneLayer";
@@ -93,6 +95,8 @@ export function App() {
   const homeButtonHoverRef = useRef(false);
   const [hoveredLink, setHoveredLink] = useState<LinkHighlight | null>(null);
   const [following, setFollowing] = useState(false);
+  const posterIdRef = useRef<string | null>(null);
+  const [poster, setPoster] = useState<OpenPoster | null>(null);
 
   // Any path other than the board itself is the missing page. Static files never reach the app.
   const missing = window.location.pathname !== "/";
@@ -169,6 +173,50 @@ export function App() {
       setHoveredBook(next);
     }
   }, [bookScreenBounds, hideBook]);
+
+  const closePoster = useCallback(() => {
+    if (posterIdRef.current !== null) {
+      posterIdRef.current = null;
+      setPoster(null);
+    }
+  }, []);
+
+  const posterScreen = useCallback((id: string): OpenPoster | null => {
+    const api = apiRef.current;
+    if (!api) {
+      return null;
+    }
+    const element = api.getSceneElements().find((entry) => entry.id === id);
+    const url = element?.customData?.download;
+    const name = element?.customData?.filename;
+    if (!element || typeof url !== "string" || typeof name !== "string") {
+      return null;
+    }
+    const { scrollX, scrollY, zoom } = api.getAppState();
+    const scale = zoom.value;
+    return {
+      id,
+      url,
+      name,
+      left: (element.x + scrollX) * scale,
+      right: (element.x + element.width + scrollX) * scale,
+      top: (element.y + scrollY) * scale,
+      bottom: (element.y + element.height + scrollY) * scale,
+    };
+  }, []);
+
+  const syncPoster = useCallback(() => {
+    const id = posterIdRef.current;
+    if (!id) {
+      return;
+    }
+    const next = posterScreen(id);
+    if (!next) {
+      closePoster();
+      return;
+    }
+    setPoster(next);
+  }, [closePoster, posterScreen]);
 
   const handleApi = useCallback(
     (api: ExcalidrawImperativeAPI) => {
@@ -264,8 +312,9 @@ export function App() {
       followViewport(worldRef.current, scrollX, scrollY, zoom.value);
       // Keep the review open while pinching/panning; just follow the cover.
       syncHoveredBook();
+      syncPoster();
     },
-    [syncHoveredBook],
+    [syncHoveredBook, syncPoster],
   );
 
   const handlePointerUpdate = useCallback(
@@ -337,11 +386,33 @@ export function App() {
 
   const handlePointerUp = useCallback(
     (tool: AppState["activeTool"], state: PointerDownState) => {
-      if (apiRef.current && !EDIT_MODE) {
-        links.click(apiRef.current, tool, state);
+      if (!apiRef.current || EDIT_MODE) {
+        return;
+      }
+      const result = links.click(apiRef.current, tool, state);
+      switch (result.kind) {
+        case "ignored":
+          return;
+        case "download": {
+          if (posterIdRef.current === result.id) {
+            closePoster();
+            return;
+          }
+          posterIdRef.current = result.id;
+          setPoster(posterScreen(result.id));
+          return;
+        }
+        case "empty":
+        case "opened":
+          closePoster();
+          return;
+        default: {
+          const neverClick: never = result;
+          return neverClick;
+        }
       }
     },
-    [links],
+    [closePoster, links, posterScreen],
   );
 
   const handleReset = useCallback(() => {
@@ -373,6 +444,7 @@ export function App() {
       </Excalidraw>
       <SceneLayer ref={worldRef} websites={websites} link={hoveredLink} onPan={panCanvas} />
       {hoveredBook && <BookCard hovered={hoveredBook} />}
+      {poster && <PosterPop poster={poster} onClose={closePoster} />}
       {ready && !missing && <PresenceFollow api={apiRef.current} following={following} />}
     </div>
   );
