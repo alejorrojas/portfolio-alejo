@@ -93,6 +93,8 @@ export type Talk = {
   link?: string;
   /** SVG name under /images/logos, drawn small in the card's corner. */
   logo?: string;
+  /** Poster names under /images/posters. A pair sits beside the card, not inside it. */
+  posters?: readonly [string, string];
 };
 
 export const TALKS: Talk[] = [
@@ -108,6 +110,7 @@ export const TALKS: Talk[] = [
     logo: "cursor",
     sub: "Brought together 100+ people from the local tech community\nfor a meetup with Juan Rezzio (SWE & QA at Cursor) to learn\nhow the team ensures quality across their products.",
     link: "https://www.linkedin.com/feed/update/urn:li:activity:7407063689159225344/",
+    posters: ["cursor-home", "cursor-alt"],
   },
   {
     photos: ["v0-1", "v0-2"],
@@ -115,6 +118,7 @@ export const TALKS: Talk[] = [
     logo: "v0",
     sub: "300+ people talking AI & cybersecurity, closed with empanadas",
     link: "https://lnkd.in/p/d_EJHiJ9",
+    posters: ["v0-home", "v0-cronograma"],
   },
   {
     photos: ["supabase-1", "supabase-2"],
@@ -122,6 +126,7 @@ export const TALKS: Talk[] = [
     logo: "supabase",
     sub: "Hosted a meetup with 120+ attendees featuring Hiberus’ Head of AI,\nexploring how AI is changing the way we build software.",
     link: "https://x.com/alejorrojass/status/1946032516680307013",
+    posters: ["supabase-home", "supabase-alt"],
   },
 ];
 

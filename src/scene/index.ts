@@ -30,6 +30,10 @@ export const SCENE_FILES: SceneFile[] = [
     id: `photo-${name}`,
     url: `/images/photos/${name}.webp`,
   })),
+  ...TALKS.flatMap(({ posters }) => posters ?? []).map((name) => ({
+    id: `poster-${name}`,
+    url: `/images/posters/${name}.webp`,
+  })),
   ...LOGOS.map((name) => ({ id: `logo-${name}`, url: `/images/logos/${name}.webp` })),
   { id: "logo-yc", url: "/images/logos/yc.svg" },
   ...TALKS.flatMap(({ logo }) => (logo ? [{ id: `logo-${logo}`, url: `/images/logos/${logo}.svg` }] : [])),
