@@ -1,4 +1,4 @@
-import { arrow, heading, image, INK, rect, text } from "../draw";
+import { arrow, FONT, heading, image, INK, rect, text } from "../draw";
 import type { Skeleton } from "../draw";
 import { browserWindow } from "./window";
 
@@ -28,21 +28,22 @@ export const research = (x: number, y: number) => {
       x,
       y + 303,
       "I find the interpretability area of study one of the most\nimportant fields of research in the modern era. In Anthropic's words,\n\"It's hard to reason about the safety of neural networks\nwithout understanding what happens inside them,\" so contributing\nto this area of knowledge feels like a noble pursuit to me.",
-      { size: 18, color: INK.gray },
+      { size: 18, color: INK.gray, font: FONT.comic },
     ),
     text(x, y + 444, "This work is a small contribution on an interpretability mechanism", {
       size: 18,
       color: INK.gray,
+      font: FONT.comic,
       steady: true,
     }),
-    text(x, y + 469, "proposed by ", { size: 18, color: INK.gray, steady: true }),
-    text(x + 111, y + 469, "Anthropic", { size: 18, color: ACCENT, link: NLA_URL, steady: true }),
-    text(x + 190, y + 469, " called NLAs.", { size: 18, color: INK.gray, steady: true }),
+    text(x, y + 469, "proposed by ", { size: 18, color: INK.gray, font: FONT.comic, steady: true }),
+    text(x + 119, y + 469, "Anthropic", { size: 18, color: ACCENT, font: FONT.comic, link: NLA_URL, steady: true }),
+    text(x + 208, y + 469, " called NLAs.", { size: 18, color: INK.gray, font: FONT.comic, steady: true }),
     text(
       x,
       y + 504,
       "Natural Language Autoencoders (NLAs) convert an activation\ninto natural language text we can read directly.\nOur proposal takes that mechanism and proposes a platform\nto directly run experiments with NLAs. You choose the tokens\nto read from activations. Neuronpedia writes them out.\nAn LLM judge scores them with your rubric and you get\nyour results based on metrics.\n\npaper @ a university congress, w/ Juan Ignacio Rodriguez Leiva (UTN FRRe)",
-      { size: 18, color: INK.gray },
+      { size: 18, color: INK.gray, font: FONT.comic },
     ),
 
     ...boxes.map((box, i) =>

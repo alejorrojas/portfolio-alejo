@@ -23,7 +23,7 @@ export const WASH = {
   blue: "#a5d8ff",
 } as const;
 
-export const FONT = { hand: 1 } as const satisfies Record<string, FontFamilyValues>;
+export const FONT = { hand: 1, comic: 8 } as const satisfies Record<string, FontFamilyValues>;
 
 // Deterministic randomness so every visit gets the same wonky drawing.
 let seed = 1;
@@ -86,7 +86,12 @@ const common = (o: Common, tilt: number) => ({
   locked: true,
 });
 
-type TextOpts = Common & { size?: number; align?: "left" | "center" | "right"; steady?: boolean };
+type TextOpts = Common & {
+  size?: number;
+  font?: FontFamilyValues;
+  align?: "left" | "center" | "right";
+  steady?: boolean;
+};
 
 export const text = (x: number, y: number, value: string, o: TextOpts = {}): Skeleton => ({
   type: "text",
@@ -94,7 +99,7 @@ export const text = (x: number, y: number, value: string, o: TextOpts = {}): Ske
   y: o.steady ? y : y + wobble(3),
   text: value,
   fontSize: o.size ?? 22,
-  fontFamily: FONT.hand,
+  fontFamily: o.font ?? FONT.hand,
   textAlign: o.align ?? "left",
   ...common({ ...o, angle: o.steady ? (o.angle ?? 0) : o.angle }, 1.2),
 });
