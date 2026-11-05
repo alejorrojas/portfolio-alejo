@@ -41,7 +41,7 @@ const UI_OPTIONS = {
     saveAsImage: true,
     toggleTheme: true,
   },
-  tools: { image: false },
+  tools: { image: true },
 } as const;
 
 /** Screen pixels covered by the toolbar; the first view is centered in the free area. */
